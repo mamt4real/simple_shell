@@ -14,15 +14,12 @@ int _putchar(char c)
  * print_str - prints a string
  *
  * @str: pointer to string
+ * @fd: file descriptor to print to
  * Return: number of chars printed
  */
-int print_str(char *str)
+int print_str(char *str, int fd)
 {
-	int i = 0;
-
 	if (!str)
 		return (-1);
-	while (str[i])
-		_putchar(str[i++]);
-	return (i);
+	return (write(fd, str, _strlen(str)));
 }

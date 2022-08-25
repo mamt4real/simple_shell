@@ -1,12 +1,12 @@
 #include "main.h"
 
 /**
- * strtow - split a string
+ * _strtok - split a string
  * @str: string to split
  * @delim: charcter to split str
  * Return: pointer to new or NULL
  */
-char **strtow(char *str, char delim)
+char **_strtok(char *str, char delim)
 {
 	int k, j = 0, i = 0, size = 0, lens[1200];
 	char **arr;

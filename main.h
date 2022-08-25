@@ -4,6 +4,6 @@
 #include<stddef.h>
 
 int _putchar(char c);
-char **strtow(char *str, char delim);
+char **_strtok(char *str, char delim);
 
 #endif
