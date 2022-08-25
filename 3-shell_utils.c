@@ -44,7 +44,7 @@ char *shell_readline(void)
 		if (position >= bufsize)
 		{
 			bufsize += RL_BUFSIZE;
-			buffer = _realloc(buffer, bufsize);
+			buffer = _realloc(buffer, RL_BUFSIZE, bufsize);
 			if (!buffer)
 			{
 				perror("Failed to re-allocate a space in memory");
@@ -76,7 +76,7 @@ void shell_launch(char **proccessed_cmd, int cmd_type)
 			}
 		case PATH_CMD:
 			{
-				if (execve(check_path(processed_cmd[0]), processed_cmd, NULL)
+				if (execve(check_path(proccessed_cmd[0]), proccessed_cmd, NULL)
 						== -1)
 				{
 					perror(_getenv("PWD"));
@@ -86,15 +86,15 @@ void shell_launch(char **proccessed_cmd, int cmd_type)
 			}
 		case INTERNAL_CMD:
 			{
-				func = get_func(processed_cmd[0]);
-				func(processed_cmd);
+				func = get_func(proccessed_cmd[0]);
+				func(proccessed_cmd);
 				break;
 			}
 		case INVALID_CMD:
 			{
 				_printf(shellName, STDERR_FILENO);
 				_printf(": 1: ", STDERR_FILENO);
-				_printf(processed_cmd[0], STDERR_FILENO);
+				_printf(proccessed_cmd[0], STDERR_FILENO);
 				_printf(": not found\n", STDERR_FILENO);
 				exit(127);
 			}

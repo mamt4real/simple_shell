@@ -3,7 +3,7 @@
 int is_delimeter(const char *delimeters, char c);
 
 /**
- * _strtok - split a string
+ * tokenize - split a string
  * @str: string to split
  * @delim: charcter to split str
  * Return: pointer to new or NULL
@@ -109,4 +109,20 @@ void free_tokenized(char **tokens)
 	while (tokens[i])
 		free(tokens[i++]);
 	free(tokens);
+}
+
+/**
+ * _strlen - gets the length of a string
+ * @s: string pointer
+ * Return: string length
+ */
+int _strlen(char *s)
+{
+	int i = 0;
+
+	if (!s)
+		return (-1);
+	while(s[i])
+		i++;
+	return (i);
 }

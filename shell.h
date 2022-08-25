@@ -66,16 +66,15 @@ void non_interractive(void);
 int check_cmd_type(char *);
 int shell_execute(char **, int);
 
-
 /* helper functions */
-void _printf(char *, int);
+int _printf(char *, int);
 void remove_comment(char *);
-void *_realloc(char *, unsigned int);
+void *_realloc(void *, unsigned int, unsigned int);
 char **tokenize(char *, const char *);
 int _putchar(char);
 int _strlen(char *);
 int _strcmp(char *, char *);
-
+int _atoi(char *);
 /* builtin funct */
 void env(char **);
 void quit(char **);
@@ -86,6 +85,7 @@ int startsWith(char *s, char *ndl);
 int endsWith(char *s, char *ndl);
 char *_strdup(char *s);
 void free_tokenized(char **tokens);
+char *_getenv(char *);
 char *check_path(char *);
 
 

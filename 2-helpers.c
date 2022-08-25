@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * _realloc - reallocate memory to a buffer
@@ -34,9 +34,53 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
+ * _getenv - gets an environment variable
+ *
+ * @key: key of the variable
+ * Return: address of value of key if found
+ * null if not found
+ */
+char *_getenv(char *key)
+{
+	char **envs;
+	int i, j;
+
+	if (!key)
+		return (0);
+	for (i = 0, envs = environ; envs[i]; i++)
+	{
+		j = startsWith(envs[i], key);
+		if (j)
+			return (&envs[i] + 1 + j);
+	}
+	return (0);
+}
+
+/**
  * check_path - find the path of a cmd
  *
  * @file
  * Return: pointer to full path
  */
-char *
+char *check_path(char *file)
+{
+	char *path, **paths, *res = 0;
+	int i = 0;
+
+	if (!file)
+		return (0);
+	path = _getenv("PATH");
+	if (!path)
+		return (0);
+	paths = tokenize(path, ":");
+	for (; paths[i]; i++)
+	{
+		if (endsWith(paths[i], file))
+		{
+			res = _strdup(paths[i]);
+			break;
+		}
+	}
+	free_tokenized(paths);
+	return (res);
+}
