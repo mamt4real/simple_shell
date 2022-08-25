@@ -39,19 +39,43 @@
 
 /* shell utility functions */
 void ctrl_C_func(int);
+char *shell_readline(void);
+void shell_launch(char **, int);
+int shell_execute(char **, int);
+void (*get_func(char *))(char **);
+
+/* declare global variable */
+extern char **environ;
+extern char *shellName;
+
+/**
+ * struct mapFunc - maps a command to a function
+ * @command_name: name of command
+ * @func: the function that executes the command
+ */
+typedef struct map
+{
+	char *command_name;
+	void (*func)(char **command);
+} function_map;
+
 
 /* shell process funtions */
 void shell_loop(void);
 void non_interractive(void);
-char **tokenize(char *, char *);
 int check_cmd_type(char *);
+int shell_execute(char **, int);
+
 
 /* helper functions */
 void _printf(char *, int);
 void remove_comment(char *);
 void *_realloc(char *, unsigned int);
-char **_strtok(char *, const char *);
+char **tokenize(char *, const char *);
 int _putchar(char);
 int _strlen(char *);
-
+int _strcmp(char *, char *);
+/* builtin funct */
+void env(char **);
+void quit(char **);
 #endif /* SHELL_H */

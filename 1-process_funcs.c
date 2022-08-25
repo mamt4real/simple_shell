@@ -118,4 +118,30 @@ int check_cmd_type(char *command)
  * shell_execute - launches the command to be executed
  * @command: command to be launched
  * @cmd_type: type of the command to be executed
- *
+ * 
+ * Return: 
+ */
+int shell_execute(char **command, int cmd_type)
+{
+	pid_t PID;
+	int status;
+
+	if (cmd_type == PATH_CMD || cmd_type == TERM_CMD)
+	{
+		PID = fork();
+		if (PID == 0)
+			shell_launch(command, cmd_type);
+		else if (PID < 0)
+		{
+			perror("Error Creating fork");
+			return (1);
+		}
+		else
+			wait(&status);
+		return (1);
+	}
+	else
+		shell_launch(command, cmd_type);
+
+	return (1);
+}
