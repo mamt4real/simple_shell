@@ -24,6 +24,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* define the type of command */
+#define TERM_CMD 1
+#define PATH_CMD 2
+#define INTERNAL_CMD 3
+#define INVALID_CMD -1
+
 /* define delimeter */
 #define DELIM " \t\r\n\a"
 
@@ -38,6 +44,7 @@ void ctrl_C_func(int);
 void shell_loop(void);
 void non_interractive(void);
 char **tokenize(char *, char *);
+int check_cmd_type(char *);
 
 /* helper functions */
 void _printf(char *, int);

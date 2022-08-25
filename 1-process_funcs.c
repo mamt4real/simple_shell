@@ -80,45 +80,42 @@ void non_interractive(void)
 	}
 }
 
+
 /**
- * tokenize - split a line into an array of strings
- * @line: the command read from the user
- * @delim: delimeter for spliting the word
+ * check_cmd_type - determines the type of the command
+ * @command: command to be checked
  *
- * Return: an array of strings on success
+ * Return: constant variable representing the type of command
  */
 
-char **tokenize(char *line, char *delim)
+int check_cmd_type(char *command)
 {
-	int position = 0, bufsize = TOK_BUFSIZE;
-	char *token;
-	char **tokens = malloc(bufsize * sizeof(char *));
+	char *internal_cmd[] = {"exit", "env", NULL};
+	char *path = NULL;
+	int i = 0;
 
-	if (!tokens)
+	while (command[i])
 	{
-		perror("Unable to allocate buffer");
-		exit(EXIT_FAILURE);
+		if (command[i++] == '/')
+			return (TERM_CMD);
+	}
+	for (i = 0; internal_cmd[i]; i++)
+	{
+		if (_strcmp(command, internal_cmd[i]) == 0)
+			return (INTERNAL_CMD);
 	}
 
-	token = _strtok(line, delim);
-	
-	while (token)
+	path = check_path(command);
+	if (path)
 	{
-		tokens[position++] = token;
-
-		if (position >= bufsize)
-		{
-			bufsize += TOK_BUFSIZE;
-			tokens = _realloc(tokens, bufsize * sizeof(char *));
-			if (!tokens)
-			{
-				perror("Unable to reallocate memory");
-				exit(EXIT_FAILURE);
-			}
-		}
-
-		token = _strtok(NULL, delim);
+		free(path);
+		return (PATH_CMD);
 	}
-	tokens[position] = NULL;
-	return (tokens);
+	return (INVALID_CMD);
 }
+
+/**
+ * shell_execute - launches the command to be executed
+ * @command: command to be launched
+ * @cmd_type: type of the command to be executed
+ *
