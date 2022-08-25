@@ -75,7 +75,18 @@ char **tokenize(char *, const char *);
 int _putchar(char);
 int _strlen(char *);
 int _strcmp(char *, char *);
+
 /* builtin funct */
 void env(char **);
 void quit(char **);
+
+/* function to handle tokenization */
+
+int startsWith(char *s, char *ndl);
+int endsWith(char *s, char *ndl);
+char *_strdup(char *s);
+void free_tokenized(char **tokens);
+char *check_path(char *);
+
+
 #endif /* SHELL_H */

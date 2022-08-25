@@ -23,3 +23,72 @@ int _printf(char *str, int fd)
 		return (-1);
 	return (write(fd, str, _strlen(str)));
 }
+
+/**
+ * startsWith - check if s starts with ndl
+ *
+ * @s: the string to check
+ * @ndl: the search string
+ * Return: 1 if true 0 if false
+ */
+int startsWith(char *s, char *ndl)
+{
+	int i = 0;
+
+	if (!s || !ndl)
+		return (0);
+	while (ndl[i])
+	{
+		if (ndl[i] != s[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+/**
+ * endsWith - check if s ends with ndl
+ *
+ * @s: the string to check
+ * @ndl: the search string
+ * Return: 1 if true 0 if false
+ */
+int endsWith(char *s, char *ndl)
+{
+	int i, j;
+
+	if (!s || !ndl)
+		return (0);
+	i = _strlen(s);
+	j = _strlen(ndl);
+	if (j > i)
+		return (0);
+	for (j--,i--; j >=0; j--, i--)
+		if (ndl[j] != s[i])
+			return (0);
+	return (1);
+}
+
+/**
+ * _strdup - duplicates a string
+ *
+ * @s: pointer to string
+ * Return: pointer to duplicate
+ */
+char *_strdup(char *s)
+{
+	int i;
+	char *res;
+
+	if (!s)
+		return (0);
+	res = malloc(_strlen(s) + 1);
+	i = 0;
+	while (s[i])
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}

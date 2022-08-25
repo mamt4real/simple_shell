@@ -32,3 +32,11 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	free(ptr);
 	return (new_ptr);
 }
+
+/**
+ * check_path - find the path of a cmd
+ *
+ * @file
+ * Return: pointer to full path
+ */
+char *

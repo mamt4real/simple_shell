@@ -94,3 +94,19 @@ int _strcmp(char *first, char *second)
 	}
 	return (first[i] - second[i]);
 }
+
+/**
+ * free_tokenized - frees an array of arrays
+ *
+ * @tokens: pointer to array
+ */
+void free_tokenized(char **tokens)
+{
+	int i = 0;
+
+	if (!tokens)
+		return;
+	while (tokens[i])
+		free(tokens[i++]);
+	free(tokens);
+}
