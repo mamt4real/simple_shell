@@ -11,8 +11,10 @@
  */
 int main(int argc __attribute__((unused)), char **argv)
 {
-	shellName = argv[0];
+	char *shellName = argv[0];
+	char *shellN = shellName;
 
+	(void) shellN;
 	/* call the loop function */
 	shell_loop();
 

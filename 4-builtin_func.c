@@ -41,7 +41,7 @@ void quit(char **tokenized_command)
 		arg = _atoi(tokenized_command[1]);
 		if (arg == -1)
 		{
-			_printf(shellName, STDERR_FILENO);
+		/*	_printf(shellName, STDERR_FILENO); */
 			_printf(": 1: exit: Illegal number: ", STDERR_FILENO);
 			_printf(tokenized_command[1], STDERR_FILENO);
 			_printf("\n", STDERR_FILENO);

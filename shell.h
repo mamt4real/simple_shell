@@ -1,6 +1,11 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+/* other utility header for basic functions and macros */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /**
  * header - The header below is used for the following function and system call
  *
@@ -19,11 +24,8 @@
 /* header file for waitpid and associated macros */
 #include <sys/wait.h>
 
-/* other utility header for basic functions and macros */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+#include <errno.h>
+#include <dirent.h>
 /* define the type of command */
 #define TERM_CMD 1
 #define PATH_CMD 2
