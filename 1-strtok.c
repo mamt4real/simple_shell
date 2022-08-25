@@ -73,3 +73,19 @@ int is_delimeter(const char *delimeters, char c)
 	}
 	return (0);
 }
+
+/**
+ * free_tokenized - frees an array of arrays
+ *
+ * @tokens: pointer to array
+ */
+void free_tokenized(char **tokens)
+{
+	int i = 0;
+
+	if (!tokens)
+		return;
+	while (tokens[i])
+		free(tokens[i++]);
+	free(tokens);
+}

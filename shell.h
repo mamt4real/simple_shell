@@ -46,5 +46,9 @@ void *_realloc(char *, unsigned int);
 char **_strtok(char *, const char *);
 int _putchar(char);
 int _strlen(char *);
-
+int startsWith(char *s, char *ndl);
+int endsWith(char *s, char *ndl);
+char *_strdup(char *s);
+void free_tokenized(char **tokens);
+char *check_path(char *);
 #endif /* SHELL_H */
