@@ -72,7 +72,7 @@ char *check_path(char *file)
 	path = _getenv("PATH");
 	if (!path)
 		return (0);
-	paths = _strtok(path, ":");
+	paths = tokenize(path, ":");
 	for (; paths[i]; i++)
 	{
 		if (endsWith(paths[i], file))

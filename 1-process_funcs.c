@@ -80,45 +80,91 @@ void non_interractive(void)
 	}
 }
 
+
 /**
- * tokenize - split a line into an array of strings
- * @line: the command read from the user
- * @delim: delimeter for spliting the word
+ * check_cmd_type - determines the type of the command
+ * @command: command to be checked
  *
- * Return: an array of strings on success
+ * Return: constant variable representing the type of command
  */
 
-char **tokenize(char *line, char *delim)
+int check_cmd_type(char *command)
 {
-	int position = 0, bufsize = TOK_BUFSIZE;
-	char *token;
-	char **tokens = malloc(bufsize * sizeof(char *));
+	char *internal_cmd[] = {"exit", "env", NULL};
+	char *path = NULL;
+	int i = 0;
 
-	if (!tokens)
+	while (command[i])
 	{
-		perror("Unable to allocate buffer");
-		exit(EXIT_FAILURE);
+		if (command[i++] == '/')
+			return (TERM_CMD);
+	}
+	for (i = 0; internal_cmd[i]; i++)
+	{
+		if (_strcmp(command, internal_cmd[i]) == 0)
+			return (INTERNAL_CMD);
 	}
 
-	token = _strtok(line, delim);
-	
-	while (token)
+	path = check_path(command);
+	if (path)
 	{
-		tokens[position++] = token;
+		free(path);
+		return (PATH_CMD);
+	}
+	return (INVALID_CMD);
+}
 
-		if (position >= bufsize)
+/**
+ * shell_execute - launches the command to be executed
+ * @command: command to be launched
+ * @cmd_type: type of the command to be executed
+ * 
+ * Return: 
+ */
+int shell_execute(char **command, int cmd_type)
+{
+	pid_t PID;
+	int status;
+
+	if (cmd_type == PATH_CMD || cmd_type == TERM_CMD)
+	{
+		PID = fork();
+		if (PID == 0)
+			shell_launch(command, cmd_type);
+		else if (PID < 0)
 		{
-			bufsize += TOK_BUFSIZE;
-			tokens = _realloc(tokens, bufsize * sizeof(char *));
-			if (!tokens)
-			{
-				perror("Unable to reallocate memory");
-				exit(EXIT_FAILURE);
-			}
+			perror("Error Creating fork");
+			return (1);
 		}
-
-		token = _strtok(NULL, delim);
+		else
+			wait(&status);
+		return (1);
 	}
-	tokens[position] = NULL;
-	return (tokens);
+	else
+		shell_launch(command, cmd_type);
+
+	return (1);
+}
+
+/**
+ * _atoi - changes a string to an integer
+ * @s: the string to be changed
+ *
+ * Return: the converted int
+ */
+int _atoi(char *s)
+{
+	unsigned int n = 0;
+
+	do {
+		if (*s == '-')
+			return (-1);
+		else if ((*s < '0' || *s > '9') && *s != '\0')
+			return (-1);
+		else if (*s >= '0'  && *s <= '9')
+			n = (n * 10) + (*s - '0');
+		else if (n > 0)
+			break;
+	} while (*s++);
+	return (n);
 }

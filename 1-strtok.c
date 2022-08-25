@@ -3,12 +3,12 @@
 int is_delimeter(const char *delimeters, char c);
 
 /**
- * tokenized - split a string
+ * tokenize - split a string
  * @str: string to split
  * @delim: charcter to split str
  * Return: pointer to new or NULL
  */
-char **tokenized(char *str, char *delim)
+char **tokenize(char *str, const char *delim)
 {
 	int k = 0, j = 0, i = 0, size = 0, lens[1200];
 	char **arr;
@@ -72,6 +72,27 @@ int is_delimeter(const char *delimeters, char c)
 		i++;
 	}
 	return (0);
+}
+
+/**
+ *_strcmp - compare two strings
+ *@first: first string to be compared
+ *@second: second string to be compared
+ *
+ * Return: difference of the two strings
+ */
+
+int _strcmp(char *first, char *second)
+{
+	int i = 0;
+
+	while (first[i] != '\0')
+	{
+		if (first[i] != second[i])
+			break;
+		i++;
+	}
+	return (first[i] - second[i]);
 }
 
 /**
