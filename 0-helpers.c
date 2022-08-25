@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * _putchar - print a character
@@ -17,7 +17,7 @@ int _putchar(char c)
  * @fd: file descriptor to print to
  * Return: number of chars printed
  */
-int print_str(char *str, int fd)
+int _printf(char *str, int fd)
 {
 	if (!str)
 		return (-1);

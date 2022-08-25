@@ -49,7 +49,9 @@ int check_cmd_type(char *);
 /* helper functions */
 void _printf(char *, int);
 void remove_comment(char *);
-void *_realloc(char *, int);
-char *_strtok(char *, const char *);
+void *_realloc(char *, unsigned int);
+char **_strtok(char *, const char *);
+int _putchar(char);
+int _strlen(char *);
 
 #endif /* SHELL_H */
