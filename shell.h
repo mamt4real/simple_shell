@@ -51,4 +51,5 @@ char *_strdup(char *s);
 void free_tokenized(char **tokens);
 char *_getenv(char *);
 char *check_path(char *);
+
 #endif /* SHELL_H */

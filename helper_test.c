@@ -14,6 +14,7 @@ void print_arr(char **arr)
 
 int main(int a, char **b, char **c)
 {
+	environ = c;
 	char *d = " :\r\t;\n";
 	char *s = "hello world lawal",
 	     *s2 = "abc;geh ijk\txyz",
@@ -26,6 +27,7 @@ int main(int a, char **b, char **c)
 	printf("<< %d\n", endsWith(s, "wal"));
 	printf(">> %d\n", startsWith(s, "gar"));
 	printf("<< %d\n", endsWith(s, "isa"));
+	printf("PATH: %s\n", _getenv("PATH"));
 
 	return (0);
 }
