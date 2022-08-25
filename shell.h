@@ -37,18 +37,18 @@ void ctrl_C_func(int);
 /* shell process funtions */
 void shell_loop(void);
 void non_interractive(void);
-char **tokenize(char *, char *);
+char **tokenized(char *, char *);
 
 /* helper functions */
-void _printf(char *, int);
+int _printf(char *, int);
 void remove_comment(char *);
 void *_realloc(char *, unsigned int);
-char **_strtok(char *, const char *);
 int _putchar(char);
 int _strlen(char *);
 int startsWith(char *s, char *ndl);
 int endsWith(char *s, char *ndl);
 char *_strdup(char *s);
 void free_tokenized(char **tokens);
+char *_getenv(char *);
 char *check_path(char *);
 #endif /* SHELL_H */

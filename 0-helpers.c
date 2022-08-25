@@ -29,7 +29,8 @@ int _printf(char *str, int fd)
  *
  * @s: the string to check
  * @ndl: the search string
- * Return: 1 if true 0 if false
+ * Return: 0 if false
+ * else returns the next index after ndl in s
  */
 int startsWith(char *s, char *ndl)
 {
@@ -43,7 +44,7 @@ int startsWith(char *s, char *ndl)
 			return (0);
 		i++;
 	}
-	return (1);
+	return (i);
 }
 
 /**
@@ -51,7 +52,8 @@ int startsWith(char *s, char *ndl)
  *
  * @s: the string to check
  * @ndl: the search string
- * Return: 1 if true 0 if false
+ * Return: 0 if false
+ * else returns the index before ndl in s
  */
 int endsWith(char *s, char *ndl)
 {
@@ -66,7 +68,7 @@ int endsWith(char *s, char *ndl)
 	for (j--,i--; j >=0; j--, i--)
 		if (ndl[j] != s[i])
 			return (0);
-	return (1);
+	return (i);
 }
 
 /**
