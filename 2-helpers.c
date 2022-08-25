@@ -51,7 +51,7 @@ char *_getenv(char *key)
 	{
 		j = startsWith(envs[i], key);
 		if (j)
-			return (&envs[i] + 1 + j);
+			return (envs[i] + 1 + j);
 	}
 	return (0);
 }
