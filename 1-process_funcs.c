@@ -39,9 +39,9 @@ void shell_loop(void)
 
 			command_type = check_cmd_type(command[0]);
 			status = shell_execute(command, command_type);
-			free_tokenized(command);
+			free_tokenized(command, -1);
 		}
-		free_tokenized(args);
+		free_tokenized(args, -1);
 
 	} while (status);
 

@@ -11,6 +11,8 @@ char *_strcat(char *dst, char *src)
 {
 	int x = 0, y = 0;
 
+	if (!dst || !src)
+		return (dst);
 	/* Get the length of destination */
 	while (dst[y])
 		y++;

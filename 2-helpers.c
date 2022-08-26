@@ -87,6 +87,7 @@ char *_getenv(char *key)
 char *check_path(char *file)
 {
 	char *path, **paths, *res, *tmp, *fulcmd = 0;
+/*	char *path, **paths, *res = 0;*/
 	int i = 0;
 
 	path = _getenv("PATH");
@@ -95,7 +96,10 @@ char *check_path(char *file)
 		return (0);
 
 	paths = tokenize(path, ":");
-	for (; paths[i]; i++)
+	if (!paths)
+		return (0);
+	res = malloc(_strlen(path) + _strlen(file) + 2);
+	for (; paths[i] && res; i++)
 	{
 		tmp = _strcat(paths[i], "/");
 		res = _strcat(tmp, file);
@@ -103,7 +107,7 @@ char *check_path(char *file)
 		if (access(res, F_OK) == 0)
 		{
 			fulcmd = _strdup(res);
-	/*		free_tokenized(paths);*/
+			free(paths);
 			return (fulcmd);
 		}
 /*		printf("\ntrying to free %s && %s\n", res, tmp);
@@ -111,6 +115,16 @@ char *check_path(char *file)
 		free(tmp);
 		printf("successfully freed\n");
 */	}
-	/*free_tokenized(paths);*/
+	free(paths);
 	return (fulcmd);
+	/*	res = _strcat(paths[i], "/");
+		res = _strcat(res, file);
+		if (access(res, F_OK) == 0)
+		{
+			i++;
+			break;
+		}
+	}
+	free_tokenized(paths, i - 1);
+	return (res);*/
 }

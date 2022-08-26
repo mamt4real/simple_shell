@@ -99,15 +99,20 @@ int _strcmp(char *first, char *second)
  * free_tokenized - frees an array of arrays
  *
  * @tokens: pointer to array
+ * @esc: index to skip (if needed)
+ * pass -ve value to free all
  */
-void free_tokenized(char **tokens)
+void free_tokenized(char **tokens, int esc)
 {
 	int i = 0;
 
 	if (!tokens)
 		return;
 	while (tokens[i])
-		free(tokens[i++]);
+		if (i != esc)
+			free(tokens[i++]);
+		else
+			i++;
 	free(tokens);
 }
 
