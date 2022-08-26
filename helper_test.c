@@ -18,7 +18,8 @@ int main(int a, char **b, char **c)
 	char *d = " :\r\t;\n";
 	char *s = "hello world lawal",
 	     *s2 = "abc;geh ijk\txyz",
-	      *path = getenv("PATH");
+	      *path = getenv("PATH"),
+	      *tmp;
 
 	print_arr(tokenize(s, d));
 	print_arr(tokenize(s2, d));
@@ -27,8 +28,10 @@ int main(int a, char **b, char **c)
 	printf("<< %d\n", endsWith(s, "wal"));
 	printf(">> %d\n", startsWith(s, "gar"));
 	printf("<< %d\n", endsWith(s, "isa"));
-	printf("PATH: %s\n", _getenv("PATH"));
-	printf("ls: %s\n", check_path("ls"));
 
+	printf("PATH: %s\n", _getenv("PATH"));
+	tmp = check_path("ls");
+	printf("ls: %s\n", tmp);
+	free(tmp);
 	return (0);
 }
