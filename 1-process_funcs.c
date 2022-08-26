@@ -13,12 +13,13 @@ void shell_loop(void)
 {
 	char *line;
 	char **args, **command;
-	int status, i = 0, command_type = 0;
+	int status, i, command_type = 0;
 
 	/* handle program interruption if CTRL-C is pressed */
 	signal(SIGINT, ctrl_C_func);
 	
 	do {
+		i = 0;
 		non_interractive();
 		_printf(" ($) ", STDOUT_FILENO);
 		line = shell_readline();
@@ -28,17 +29,19 @@ void shell_loop(void)
 
 		while (args[i])
 		{
+			
 			command = tokenize(args[i++], DELIM);
 			if (!(command[0]))
 			{
 				free(command);
 				break;
 			}
+
 			command_type = check_cmd_type(command[0]);
 			status = shell_execute(command, command_type);
-			free(command);
+			free_tokenized(command);
 		}
-		free(args);
+		free_tokenized(args);
 
 	} while (status);
 
