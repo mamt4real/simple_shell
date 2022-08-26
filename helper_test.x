@@ -20,14 +20,15 @@ int main(int a, char **b, char **c)
 	     *s2 = "abc;geh ijk\txyz",
 	      *path = getenv("PATH");
 
-	print_arr(tokenized(s, d));
-	print_arr(tokenized(s2, d));
-	print_arr(tokenized(path, d));
+	print_arr(tokenize(s, d));
+	print_arr(tokenize(s2, d));
+	print_arr(tokenize(path, d));
 	printf(">> %d\n", startsWith(s, "hel"));
 	printf("<< %d\n", endsWith(s, "wal"));
 	printf(">> %d\n", startsWith(s, "gar"));
 	printf("<< %d\n", endsWith(s, "isa"));
 	printf("PATH: %s\n", _getenv("PATH"));
+	printf("ls: %s\n", check_path("ls"));
 
 	return (0);
 }
