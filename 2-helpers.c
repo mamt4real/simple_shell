@@ -108,6 +108,6 @@ char *check_path(char *file)
 			break;
 		}
 	}
-	/* free_tokenized(paths, i - 1); */
+	free_tokenized(paths, i - 1);
 	return (res);
 }
