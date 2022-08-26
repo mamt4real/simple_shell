@@ -87,7 +87,7 @@ char *_getenv(char *key)
 char *check_path(char *file)
 {
 	char *path, **paths, *res, *fulcmd = 0;
-	int i = 0, len;
+	int i = 0;
 
 	if (!file)
 		return (0);

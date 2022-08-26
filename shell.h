@@ -26,6 +26,7 @@
 
 #include <errno.h>
 #include <dirent.h>
+
 /* define the type of command */
 #define TERM_CMD 1
 #define PATH_CMD 2
@@ -83,7 +84,6 @@ void env(char **);
 void quit(char **);
 
 /* function to handle tokenization */
-
 char **tokenize(char *, const char *);
 int startsWith(char *s, char *ndl);
 int endsWith(char *s, char *ndl);
