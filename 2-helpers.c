@@ -86,7 +86,7 @@ char *_getenv(char *key)
  */
 char *check_path(char *file)
 {
-	char *path, **paths, *res = 0;
+	char *path, *tmp, **paths, *res = 0;
 	int i = 0;
 
 	path = _getenv("PATH");
@@ -98,11 +98,12 @@ char *check_path(char *file)
 	res = malloc(_strlen(path) + _strlen(file) + 2);
 	for (; paths[i] && res; i++)
 	{
-		res = _strcat(paths[i], "/");
-		res = _strcat(res, file);
+		tmp = _strcat(paths[i], "/");
+		res = _strcat(tmp, file);
 		if (access(res, F_OK) == 0)
 		{
-			break;
+			free(paths);
+			return(res);
 		}
 	}
 	free_tokenized(paths, i);
