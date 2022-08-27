@@ -18,11 +18,10 @@ void shell_loop(shell_t *var)
 
 	/* handle program interruption if CTRL-C is pressed */
 	signal(SIGINT, ctrl_C_func);
-	
 	do {
 		i = 0;
 		non_interractive(var);
-		_printf(" ($) ", STDOUT_FILENO);	
+		_printf(" ($) ", STDOUT_FILENO);
 		line = shell_readline();
 		if (!line)
 		{
@@ -31,25 +30,20 @@ void shell_loop(shell_t *var)
 		}
 		remove_comment(line);
 		args = tokenize(line, ";");
-
 		while (args[i])
 		{
-			
 			command = tokenize(args[i++], DELIM);
 			if (!(command[0]))
 			{
 				free(command);
 				break;
 			}
-
 			command_type = check_cmd_type(command[0]);
 			status = shell_execute(command, command_type, var);
 			free_tokenized(command);
 		}
 		free_tokenized(args);
-
 	} while (status);
-
 	free(line);
 }
 
@@ -69,7 +63,6 @@ void non_interractive(shell_t *p)
 	{
 		line = shell_readline();
 		remove_comment(line);
-		
 		args = tokenize(line, ";");
 		while (args[i])
 		{
@@ -113,7 +106,6 @@ int check_cmd_type(char *command)
 		if (_strcmp(command, internal_cmd[i]) == 0)
 			return (INTERNAL_CMD);
 	}
-
 	path = check_path(command);
 	if (path)
 	{
@@ -127,8 +119,8 @@ int check_cmd_type(char *command)
  * shell_execute - launches the command to be executed
  * @command: command to be launched
  * @cmd_type: type of the command to be executed
- * 
- * Return: 
+ * @var: struct for shell name and old path
+ * Return: 1 always
  */
 int shell_execute(char **command, int cmd_type, shell_t *var)
 {

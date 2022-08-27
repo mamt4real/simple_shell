@@ -11,7 +11,7 @@ int _putchar(char c)
 }
 
 /**
- * print_str - prints a string
+ * _printf - prints a string
  *
  * @str: pointer to string
  * @fd: file descriptor to print to
@@ -65,7 +65,7 @@ int endsWith(char *s, char *ndl)
 	j = _strlen(ndl);
 	if (j > i)
 		return (0);
-	for (j--,i--; j >=0; j--, i--)
+	for (j--, i--; j >= 0; j--, i--)
 		if (ndl[j] != s[i])
 			return (0);
 	return (i);

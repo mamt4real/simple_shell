@@ -81,7 +81,7 @@ char *_getenv(char *key)
 /**
  * check_path - find the path of a cmd
  *
- * @file
+ * @file: the command to find its full path
  * Return: pointer to full path
  */
 char *check_path(char *file)
@@ -105,7 +105,7 @@ char *check_path(char *file)
 		if (access(res, F_OK) == 0)
 		{
 			free(paths);
-			return(res);
+			return (res);
 		}
 		free(res);
 		res = 0;

@@ -10,8 +10,8 @@
 void ch_dir(char **command, shell_t *var)
 {
 	char *home;
+
 	home = _getenv("HOME");
-	
 	if (command[1] == NULL)
 	{
 		SETPWD(var->old_pwd);
@@ -54,6 +54,27 @@ void display_help(char **command, shell_t *p)
 {
 	(void) command;
 	(void) p;
+	static char *texts[] = {
+		"\n\t***Welcome to Our Simple Shell***\n",
+		"Copyright: @Sanctus-Peter @mamt4real\n",
+		"\nList of Supported Commands:\n",
+		"\tcd\n",
+		"\trmdir\n",
+		"\tmkdir\n",
+		"\thelp\n",
+		"\tclear\n",
+		"\texit\n",
+		"\nAll Other Shell Built in Commands are supported\n",
+		"\nHave Fun!!\n",
+		NULL
+		};
+	int i = 0;
+
+	while (texts[i])
+	{
+		_printf(texts[i], 1);
+		i++;
+	}
 }
 
 

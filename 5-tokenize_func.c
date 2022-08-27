@@ -122,7 +122,7 @@ int _strlen(char *s)
 
 	if (!s)
 		return (-1);
-	while(s[i])
+	while (s[i])
 		i++;
 	return (i);
 }

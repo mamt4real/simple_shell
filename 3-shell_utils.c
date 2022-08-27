@@ -42,12 +42,11 @@ char *shell_readline(void)
 		else if (c == '\n' || !nRead)
 		{
 			buffer[position] = '\0';
-			return(buffer);
+			return (buffer);
 		}
 		else
 			buffer[position] = c;
 		position++;
-
 		if (position >= bufsize)
 		{
 			bufsize += RL_BUFSIZE;
@@ -119,7 +118,7 @@ void (*get_func(char *command))(char **, shell_t *)
 {
 	int i;
 	function_map mapping[] = {
-		{"env", env}, 
+		{"env", env},
 		{"exit", quit},
 		{"cd", ch_dir},
 		{"help", display_help}
