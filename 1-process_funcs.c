@@ -77,7 +77,7 @@ void non_interractive(void)
 			status = shell_execute(command, command_type);
 			free_tokenized(command);
 		}
-		free(args);
+		free_tokenized(args);
 		free(line);
 		exit(status);
 	}
