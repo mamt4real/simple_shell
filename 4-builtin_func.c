@@ -33,7 +33,7 @@ void quit(char **tokenized_command)
 		;
 	if (num_token == 1)
 	{
-		free_tokenized(tokenized_command, -1);
+		free_tokenized(tokenized_command);
 		exit(1);
 	}
 	else if (num_token == 2)
@@ -49,7 +49,7 @@ void quit(char **tokenized_command)
 		}
 		else
 		{
-			free_tokenized(tokenized_command, -1);
+			free_tokenized(tokenized_command);
 			exit(arg);
 		}
 	}

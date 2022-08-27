@@ -88,7 +88,7 @@ char **tokenize(char *, const char *);
 int startsWith(char *s, char *ndl);
 int endsWith(char *s, char *ndl);
 char *_strdup(char *s);
-void free_tokenized(char **tokens, int);
+void free_tokenized(char **tokens);
 
 /* Environmemt Functions */
 char *_getenv(char *);

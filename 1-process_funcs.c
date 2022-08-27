@@ -39,9 +39,9 @@ void shell_loop(void)
 
 			command_type = check_cmd_type(command[0]);
 			status = shell_execute(command, command_type);
-			free_tokenized(command, -1);
+			free_tokenized(command);
 		}
-		free_tokenized(args, -1);
+		free_tokenized(args);
 
 	} while (status);
 
@@ -70,12 +70,12 @@ void non_interractive(void)
 			command = tokenize(args[i++], DELIM);
 			if (!(command[0]))
 			{
-				free(command);
+				free_tokenized(command);
 				break;
 			}
 			command_type = check_cmd_type(command[0]);
 			status = shell_execute(command, command_type);
-			free(command);
+			free_tokenized(command);
 		}
 		free(args);
 		free(line);

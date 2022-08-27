@@ -9,7 +9,7 @@ void print_arr(char **arr)
 		return;
 	while (arr[i])
 		printf("%s\n", arr[i++]);
-	free_tokenized(arr, -1);
+	free_tokenized(arr);
 }
 
 int main(int a, char **b, char **c)
