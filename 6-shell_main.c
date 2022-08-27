@@ -11,12 +11,13 @@
  */
 int main(int argc __attribute__((unused)), char **argv)
 {
-	char *shellName = argv[0];
-	char *shellN = shellName;
+	shell_t var;
 
-	(void) shellN;
+	var.shell_name = argv[0];
+	var.old_pwd = NULL;
+
 	/* call the loop function */
-	shell_loop();
+	shell_loop(&var);
 
 	return (EXIT_SUCCESS);
 }

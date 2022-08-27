@@ -1,13 +1,17 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+/* ------------Headers and macro def------------------- */
+
 /* other utility header for basic functions and macros */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+
 /**
- * header - The header below is used for the following function and system call
+ * header - The header below is used for the following
+ *			function and system call
  *
  * chdir()
  * fork()
@@ -18,38 +22,65 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <errno.h>
+#include <dirent.h>
+
 /* ANSI C signal handling */
 #include <signal.h>
 
 /* header file for waitpid and associated macros */
 #include <sys/wait.h>
 
-#include <errno.h>
-#include <dirent.h>
+/* ============================================== */
 
-/* define the type of command */
+
+/* -------define the type of command----------- */
+
 #define TERM_CMD 1
 #define PATH_CMD 2
 #define INTERNAL_CMD 3
 #define INVALID_CMD -1
 
-/* define delimeter */
+/* ============================================ */
+
+
+/* ------------define delimeter---------------- */
+
 #define DELIM " \t\r\n\a"
 
-/* token size and line read size */
+/* ============================================ */
+
+
+/* --------token size and line read size-------- */
+
 #define RL_BUFSIZE 1024
 #define TOK_BUFSIZE 64
 
-/* shell utility functions */
-void ctrl_C_func(int);
-char *shell_readline(void);
-void shell_launch(char **, int);
-int shell_execute(char **, int);
-void (*get_func(char *))(char **);
+/* ============================================= */
 
-/* declare global variable */
+
+
+/* ------------declare global variable------------- */
+
 extern char **environ;
-extern char *shellName;
+
+/* ================================================ */
+
+
+
+/* -----------------------struct-------------------- */
+
+/**
+ * struct shell_data - Global data structure
+ * @shell_name: the name of the shell at compile time
+ * @old_pwd: old path visited
+ */
+typedef struct shell_data
+{
+	char *shell_name;
+	char *old_pwd;
+} shell_t;
+
 
 /**
  * struct mapFunc - maps a command to a function
@@ -59,39 +90,84 @@ extern char *shellName;
 typedef struct map
 {
 	char *command_name;
-	void (*func)(char **command);
+	void (*func)(char **command, shell_t *);
 } function_map;
 
 
-/* shell process funtions */
-void shell_loop(void);
-void non_interractive(void);
-int check_cmd_type(char *);
-int shell_execute(char **, int);
+/* ================================================== */
 
-/* helper functions */
+
+/* -----------shell utility functions------------ */
+
+void ctrl_C_func(int);
+char *shell_readline(void);
+void shell_launch(char **, int, shell_t *);
+void (*get_func(char *))(char **, shell_t *);
+
+/* =============================================== */
+
+
+/* -------------shell process funtions-------------- */
+
+void shell_loop(shell_t *);
+void non_interractive(shell_t *);
+int check_cmd_type(char *);
+int shell_execute(char **, int, shell_t *);
+
+/* ================================================= */
+
+
+/* ----------------helper functions------------------ */
+
 int _printf(char *, int);
 void remove_comment(char *);
-void *_realloc(void *, unsigned int, unsigned int);
 int _putchar(char);
-int _strlen(char *);
-int _strcmp(char *, char *);
 int _atoi(char *);
+
+/* ================================================= */
+
+
+/* ---------------String functions-------------------*/
+
 char *_strcat(char *dst, char *src);
+int _strcmp(char *, char *);
+int _strlen(char *);
+char *_strdup(char *s);
 
-/* builtin funct */
-void env(char **);
-void quit(char **);
+/* ================================================== */
 
-/* function to handle tokenization */
+
+/* ------------------builtin funct------------------- */
+
+void env(char **, shell_t *);
+void quit(char **, shell_t *);
+void ch_dir(char **, shell_t *);
+void display_help(char **, shell_t *);
+
+/* ===================================================== */
+
+
+/* -----------function to handle tokenization----------- */
 char **tokenize(char *, const char *);
 int startsWith(char *s, char *ndl);
 int endsWith(char *s, char *ndl);
-char *_strdup(char *s);
-void free_tokenized(char **tokens, int);
 
-/* Environmemt Functions */
+/* ==================================================== */
+
+
+/* ---------------Memory management---------------------*/
+
+void free_tokenized(char **tokens);
+void *_realloc(void *, unsigned int, unsigned int);
+
+/* ==================================================== */
+
+
+/* ---------------Environmemt Functions---------------- */
+
 char *_getenv(char *);
 char *check_path(char *);
+
+/* ==================================================== */
 
 #endif /* SHELL_H */

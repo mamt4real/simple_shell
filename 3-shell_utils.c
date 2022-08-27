@@ -31,11 +31,18 @@ char *shell_readline(void)
 	while (1)
 	{
 		nRead = read(STDIN_FILENO, &c, 1);
-
-		if (c == '\n' || !nRead || c == EOF)
+		if (c == EOF || !nRead)
+		{
+			if (isatty(STDIN_FILENO))
+			{
+				_printf("\n", STDIN_FILENO);
+				return (NULL);
+			}
+		}
+		else if (c == '\n' || !nRead)
 		{
 			buffer[position] = '\0';
-			return (buffer);
+			return(buffer);
 		}
 		else
 			buffer[position] = c;
@@ -58,11 +65,13 @@ char *shell_readline(void)
  * shell_launch - executes a command based on it type
  * @proccessed_cmd: processed character array
  * @cmd_type: the type of the command
+ * @p: global shell variables
  */
-void shell_launch(char **proccessed_cmd, int cmd_type)
-{
-	void (*func)(char **command);
 
+void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
+{
+	void (*func)(char **command, shell_t *var);
+	signal(SIGINT, SIG_DFL);
 	switch (cmd_type)
 	{
 		case TERM_CMD:
@@ -87,16 +96,15 @@ void shell_launch(char **proccessed_cmd, int cmd_type)
 		case INTERNAL_CMD:
 			{
 				func = get_func(proccessed_cmd[0]);
-				func(proccessed_cmd);
+				func(proccessed_cmd, p);
 				break;
 			}
 		case INVALID_CMD:
 			{
-			/*	_printf(shellName, STDERR_FILENO); */
+				_printf(p->shell_name, STDERR_FILENO);
 				_printf(": 1: ", STDERR_FILENO);
 				_printf(proccessed_cmd[0], STDERR_FILENO);
 				_printf(": not found\n", STDERR_FILENO);
-				exit(127);
 			}
 	}
 }
@@ -107,14 +115,17 @@ void shell_launch(char **proccessed_cmd, int cmd_type)
  *
  * Return: pointer to the proper function, or null on fail
  */
-void (*get_func(char *command))(char **)
+void (*get_func(char *command))(char **, shell_t *)
 {
 	int i;
 	function_map mapping[] = {
-		{"env", env}, {"exit", quit}
+		{"env", env}, 
+		{"exit", quit},
+		{"cd", ch_dir},
+		{"help", display_help}
 	};
 
-	for (i = 0; i < 2; i++)
+	for (i = 0; i < 4; i++)
 	{
 		if (_strcmp(command, mapping[i].command_name) == 0)
 			return (mapping[i].func);

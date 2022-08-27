@@ -1,13 +1,71 @@
 #include "shell.h"
 
+#define SETPWD(V) (V = _strdup(_getenv("OLDPWD")))
 /**
- *env - prints the current_environnement
- *@tokenized_command: command entered
- *
- *Return: void
+ * ch_dir - handles change directory command (cd)
+ * @command: command enterd, not used
+ * @var: shell global variable
  */
 
-void env(char **tokenized_command __attribute__((unused)))
+void ch_dir(char **command, shell_t *var)
+{
+	char *home;
+	home = _getenv("HOME");
+	
+	if (command[1] == NULL)
+	{
+		SETPWD(var->old_pwd);
+		if (chdir(home) < 0)
+			exit(EXIT_FAILURE);
+	}
+	else if (_strcmp(command[1],  "-") == 0)
+	{
+		if (var->old_pwd == NULL)
+		{
+			SETPWD(var->old_pwd);
+			if (chdir(home) < 0)
+				exit(EXIT_FAILURE);
+		}
+		else
+		{
+			SETPWD(var->old_pwd);
+			if (chdir(var->old_pwd) < 0)
+				exit(EXIT_FAILURE);
+		}
+
+	}
+	else
+	{
+		SETPWD(var->old_pwd);
+		if (chdir(command[1]) < 0)
+			exit(EXIT_FAILURE);
+	}
+
+}
+
+#undef GETCWD
+/**
+ * display_help - display help necessary help and docs for the shell
+ * @command: command passed
+ * @p: shell global variable
+ */
+
+void display_help(char **command, shell_t *p)
+{
+	(void) command;
+	(void) p;
+}
+
+
+/**
+ * env - prints the current_environnement
+ * @tokenized_command: command entered
+ * @p: shell global variable
+ *
+ */
+
+void env(char **tokenized_command __attribute__((unused)),
+		shell_t *p __attribute__((unused)))
 {
 	int i;
 
@@ -21,11 +79,11 @@ void env(char **tokenized_command __attribute__((unused)))
 /**
  * quit - exits the shell
  * @tokenized_command: command entered
+ * @p: shell global variable
  *
- * Return: void
  */
 
-void quit(char **tokenized_command)
+void quit(char **tokenized_command, shell_t *p)
 {
 	int num_token = 0, arg;
 
@@ -33,7 +91,7 @@ void quit(char **tokenized_command)
 		;
 	if (num_token == 1)
 	{
-		free_tokenized(tokenized_command, -1);
+		free_tokenized(tokenized_command);
 		exit(1);
 	}
 	else if (num_token == 2)
@@ -41,7 +99,7 @@ void quit(char **tokenized_command)
 		arg = _atoi(tokenized_command[1]);
 		if (arg == -1)
 		{
-		/*	_printf(shellName, STDERR_FILENO); */
+			_printf(p->shell_name, STDERR_FILENO);
 			_printf(": 1: exit: Illegal number: ", STDERR_FILENO);
 			_printf(tokenized_command[1], STDERR_FILENO);
 			_printf("\n", STDERR_FILENO);
@@ -49,7 +107,7 @@ void quit(char **tokenized_command)
 		}
 		else
 		{
-			free_tokenized(tokenized_command, -1);
+			free_tokenized(tokenized_command);
 			exit(arg);
 		}
 	}
