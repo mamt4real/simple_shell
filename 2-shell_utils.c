@@ -19,8 +19,7 @@ void ctrl_C_func(int signum)
 char *shell_readline(void)
 {
 	int bufsize = RL_BUFSIZE, nRead, position = 0;
-	char *buffer = malloc(bufsize * sizeof(char));
-	char c;
+	char c,  *buffer = malloc(bufsize * sizeof(char));
 
 	if (!buffer)
 	{
@@ -35,6 +34,7 @@ char *shell_readline(void)
 		{
 			if (isatty(STDIN_FILENO))
 			{
+				free(buffer);
 				_printf("\n", STDIN_FILENO);
 				return (NULL);
 			}
@@ -70,6 +70,7 @@ char *shell_readline(void)
 void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 {
 	void (*func)(char **command, shell_t *var);
+
 	signal(SIGINT, SIG_DFL);
 	switch (cmd_type)
 	{

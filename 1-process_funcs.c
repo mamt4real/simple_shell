@@ -147,26 +147,3 @@ int shell_execute(char **command, int cmd_type, shell_t *var)
 		shell_launch(command, cmd_type, var);
 	return (1);
 }
-
-/**
- * _atoi - changes a string to an integer
- * @s: the string to be changed
- *
- * Return: the converted int
- */
-int _atoi(char *s)
-{
-	unsigned int n = 0;
-
-	do {
-		if (*s == '-')
-			return (-1);
-		else if ((*s < '0' || *s > '9') && *s != '\0')
-			return (-1);
-		else if (*s >= '0'  && *s <= '9')
-			n = (n * 10) + (*s - '0');
-		else if (n > 0)
-			break;
-	} while (*s++);
-	return (n);
-}

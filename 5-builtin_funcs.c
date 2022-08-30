@@ -1,83 +1,5 @@
 #include "shell.h"
 
-#define SETPWD(V) (V = _strdup(_getenv("OLDPWD")))
-/**
- * ch_dir - handles change directory command (cd)
- * @command: command enterd, not used
- * @var: shell global variable
- */
-
-void ch_dir(char **command, shell_t *var)
-{
-	char *home;
-
-	home = _getenv("HOME");
-	if (command[1] == NULL)
-	{
-		SETPWD(var->old_pwd);
-		if (chdir(home) < 0)
-			exit(EXIT_FAILURE);
-	}
-	else if (_strcmp(command[1],  "-") == 0)
-	{
-		if (var->old_pwd == NULL)
-		{
-			SETPWD(var->old_pwd);
-			if (chdir(home) < 0)
-				exit(EXIT_FAILURE);
-		}
-		else
-		{
-			SETPWD(var->old_pwd);
-			if (chdir(var->old_pwd) < 0)
-				exit(EXIT_FAILURE);
-		}
-
-	}
-	else
-	{
-		SETPWD(var->old_pwd);
-		if (chdir(command[1]) < 0)
-			exit(EXIT_FAILURE);
-	}
-
-}
-
-#undef GETCWD
-/**
- * display_help - display help necessary help and docs for the shell
- * @command: command passed
- * @p: shell global variable
- */
-
-void display_help(char **command, shell_t *p)
-{
-	(void) command;
-	(void) p;
-	static char *texts[] = {
-		"\n\t***Welcome to Our Simple Shell***\n",
-		"Copyright: @Sanctus-Peter @mamt4real\n",
-		"\nList of Supported Commands:\n",
-		"\tcd\n",
-		"\trmdir\n",
-		"\tmkdir\n",
-		"\thelp\n",
-		"\tclear\n",
-		"\texit\n",
-		"\nAll Other Shell Built in Commands are supported\n",
-		"\nHave Fun!!\n",
-		NULL
-		};
-	int i = 0;
-
-	while (texts[i])
-	{
-		_printf(texts[i], 1);
-		i++;
-	}
-}
-
-
 /**
  * env - prints the current_environnement
  * @tokenized_command: command entered
@@ -134,4 +56,80 @@ void quit(char **tokenized_command, shell_t *p)
 	}
 	else
 		_printf("$: exit doesn't take more than one argument\n", STDERR_FILENO);
+}
+
+#define SETPWD(V) (V = _strdup(_getenv("OLDPWD")))
+/**
+ * ch_dir - handles change directory command (cd)
+ * @command: command enterd, not used
+ * @var: shell global variable
+ */
+
+void ch_dir(char **command, shell_t *var)
+{
+	char *home;
+
+	home = _getenv("HOME");
+	if (command[1] == NULL)
+	{
+		SETPWD(var->old_pwd);
+		if (chdir(home) < 0)
+			exit(EXIT_FAILURE);
+	}
+	else if (_strcmp(command[1],  "-") == 0)
+	{
+		if (var->old_pwd == NULL)
+		{
+			SETPWD(var->old_pwd);
+			if (chdir(home) < 0)
+				exit(EXIT_FAILURE);
+		}
+		else
+		{
+			SETPWD(var->old_pwd);
+			if (chdir(var->old_pwd) < 0)
+				exit(EXIT_FAILURE);
+		}
+
+	}
+	else
+	{
+		SETPWD(var->old_pwd);
+		if (chdir(command[1]) < 0)
+			exit(EXIT_FAILURE);
+	}
+
+}
+
+#undef GETCWD
+/**
+ * display_help - display help necessary help and docs for the shell
+ * @command: command passed
+ * @p: shell global variable
+ */
+
+void display_help(char **command __attribute__((unused)),
+		shell_t *p __attribute__((unused)))
+{
+	static char *texts[] = {
+		"\n\t***Welcome to Our Simple Shell***\n",
+		"Copyright: @Sanctus-Peter @mamt4real\n",
+		"\nList of Supported Commands:\n",
+		"\tcd\n",
+		"\trmdir\n",
+		"\tmkdir\n",
+		"\thelp\n",
+		"\tclear\n",
+		"\texit\n",
+		"\nAll Other Shell Built in Commands are supported\n",
+		"\nHave Fun!!\n",
+		NULL
+		};
+	int i = 0;
+
+	while (texts[i])
+	{
+		_printf(texts[i], 1);
+		i++;
+	}
 }

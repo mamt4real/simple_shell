@@ -1,7 +1,5 @@
 #include "shell.h"
 
-int is_delimeter(const char *delimeters, char c);
-
 /**
  * tokenize - split a string
  * @str: string to split
@@ -75,54 +73,48 @@ int is_delimeter(const char *delimeters, char c)
 }
 
 /**
- *_strcmp - compare two strings
- *@first: first string to be compared
- *@second: second string to be compared
+ * startsWith - check if s starts with ndl
  *
- * Return: difference of the two strings
+ * @s: the string to check
+ * @ndl: the search string
+ * Return: 0 if false
+ * else returns the next index after ndl in s
  */
-
-int _strcmp(char *first, char *second)
+int startsWith(char *s, char *ndl)
 {
 	int i = 0;
 
-	while (first[i] != '\0')
+	if (!s || !ndl)
+		return (0);
+	while (ndl[i])
 	{
-		if (first[i] != second[i])
-			break;
+		if (ndl[i] != s[i])
+			return (0);
 		i++;
 	}
-	return (first[i] - second[i]);
+	return (i);
 }
 
 /**
- * free_tokenized - frees an array of arrays
+ * endsWith - check if s ends with ndl
  *
- * @tokens: pointer to array
+ * @s: the string to check
+ * @ndl: the search string
+ * Return: 0 if false
+ * else returns the index before ndl in s
  */
-void free_tokenized(char **tokens)
+int endsWith(char *s, char *ndl)
 {
-	int i = 0;
+	int i, j;
 
-	if (!tokens)
-		return;
-	while (tokens[i])
-		free(tokens[i++]);
-	free(tokens);
-}
-
-/**
- * _strlen - gets the length of a string
- * @s: string pointer
- * Return: string length
- */
-int _strlen(char *s)
-{
-	int i = 0;
-
-	if (!s)
-		return (-1);
-	while (s[i])
-		i++;
+	if (!s || !ndl)
+		return (0);
+	i = _strlen(s);
+	j = _strlen(ndl);
+	if (j > i)
+		return (0);
+	for (j--, i--; j >= 0; j--, i--)
+		if (ndl[j] != s[i])
+			return (0);
 	return (i);
 }

@@ -87,7 +87,7 @@ typedef struct shell_data
  * @command_name: name of command
  * @func: the function that executes the command
  */
-typedef struct map
+typedef struct mapFunc
 {
 	char *command_name;
 	void (*func)(char **command, shell_t *);
@@ -149,6 +149,7 @@ void display_help(char **, shell_t *);
 
 /* -----------function to handle tokenization----------- */
 char **tokenize(char *, const char *);
+int is_delimeter(const char *delimeters, char c);
 int startsWith(char *s, char *ndl);
 int endsWith(char *s, char *ndl);
 
