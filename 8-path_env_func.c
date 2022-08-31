@@ -87,6 +87,7 @@ int _setenv(char *key, char *val)
 	{
 		if (startsWith(environ[i], key))
 		{
+			/* free(environ[i] */
 			environ[i] = key_val;
 			return (0);
 		}
@@ -98,6 +99,7 @@ int _setenv(char *key, char *val)
 		return (-1);
 	for (i = 0; environ[i]; i++)
 		temp[i] = environ[i];
+	/* free_tokenized(environ) */
 	environ = temp;
 	environ[i] = key_val;
 	environ[i + 1] = NULL;
@@ -141,6 +143,7 @@ int _unsetenv(char *key)
 		temp[j] = environ[i];
 	}
 	temp[j] = NULL;
+	/* free_tokenized(environ) */
 	environ = temp;
 	return (0);
 }
