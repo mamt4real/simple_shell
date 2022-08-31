@@ -76,7 +76,7 @@ int _setenv(char *key, char *val)
 		return (-1);
 	/* reserve space for env */
 	key_val = malloc(_strlen(key) + _strlen(val) + 2);
-	if (key_val)
+	if (!key_val)
 		return (-1);
 	key_val[0] = '\0';
 	key_val = _strcat(key_val, key);
@@ -87,7 +87,6 @@ int _setenv(char *key, char *val)
 	{
 		if (startsWith(environ[i], key))
 		{
-			free(environ[i]);
 			environ[i] = key_val;
 			return (0);
 		}
@@ -99,7 +98,6 @@ int _setenv(char *key, char *val)
 		return (-1);
 	for (i = 0; environ[i]; i++)
 		temp[i] = environ[i];
-	free_tokenized(environ);
 	environ = temp;
 	environ[i] = key_val;
 	environ[i + 1] = NULL;
@@ -142,7 +140,6 @@ int _unsetenv(char *key)
 		}
 		temp[j] = environ[i];
 	}
-	free_tokenized(environ);
 	temp[j] = NULL;
 	environ = temp;
 	return (0);

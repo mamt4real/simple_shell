@@ -177,6 +177,8 @@ void *_realloc(void *, unsigned int, unsigned int);
 /* ---------------Environmemt Functions---------------- */
 
 char *_getenv(char *);
+int _setenv(char *, char *);
+int _unsetenv(char *);
 char *check_path(char *);
 
 /* ==================================================== */

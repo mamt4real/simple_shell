@@ -1,5 +1,14 @@
 #include "shell.h"
 
+void print_arr(char **arr)
+{
+	int i = 0;
+
+	while(arr[i])
+		printf("%s\n", arr[i++]);
+
+	printf("======={=======\n");
+}
 
 char **logic_token(char *str);
 
@@ -7,7 +16,6 @@ int main(void)
 {
 	char *temp = "abc && ghi || xyz fgh";
 	int i = 1;
-
 
 	printf("line: %s\n\n", temp);
 
@@ -27,6 +35,10 @@ int main(void)
 	}
 	free(args[0]);
 	free(args);
-
+	print_arr(environ);
+	printf("set = %d\n", _setenv("Me", "Me_value"));
+	print_arr(environ);
+	_unsetenv("Me");
+	print_arr(environ);
 	return (0);
 }
