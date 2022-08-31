@@ -12,9 +12,9 @@
 
 void shell_loop(shell_t *var)
 {
-	char *line;
-	char **args, **command;
-	int status, i, command_type = 0;
+	char *line, *op;
+	char **args, **logic_cmd;
+	int status, i;
 
 	/* handle program interruption if CTRL-C is pressed */
 	signal(SIGINT, ctrl_C_func);
@@ -32,15 +32,29 @@ void shell_loop(shell_t *var)
 		args = tokenize(line, ";");
 		while (args[i])
 		{
-			command = tokenize(args[i++], DELIM);
-			if (!(command[0]))
+			logic_cmd = logic_token(args[i++]);
+			op = logic_cmd[1];
+			
+			if (!op)
+				status = execute_norm(logic_cmd[0], var);
+
+			else if (_strcmp(op, AND_DELIM) == 0)
 			{
-				free(command);
-				break;
+				status = execute_and(logic_cmd[0], var);
+				if (status > 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+					break;
 			}
-			command_type = check_cmd_type(command[0]);
-			status = shell_execute(command, command_type, var);
-			free_tokenized(command);
+			else
+			{
+				status = execute_or(logic_cmd[0], var);
+				if (status < 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+					break;
+			}
+			free(op);
 		}
 		free_tokenized(args);
 	} while (status);

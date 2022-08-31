@@ -47,9 +47,18 @@
 /* ------------define delimeter---------------- */
 
 #define DELIM " \t\r\n\a"
+#define AND_DELIM "&&"
+#define OR_DELIM "||"
 
 /* ============================================ */
 
+/* ---------define logical command type--------- */
+
+#define LOGIC_AND 1
+#define LOGIC_OR 2
+#define NOT_FOUND 0
+
+/* ============================================ */
 
 /* --------token size and line read size-------- */
 
@@ -170,5 +179,14 @@ char *_getenv(char *);
 char *check_path(char *);
 
 /* ==================================================== */
+
+/* -----------shell logical functions help-------------- */
+
+char **logic_token(char *);
+int execute_norm(char *, shell_t *);
+int execute_and(char *, shell_t *);
+int execute_or(char *, shell_t *);
+
+/* ===================================================== */
 
 #endif /* SHELL_H */
