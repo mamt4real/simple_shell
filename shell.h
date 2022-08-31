@@ -133,6 +133,7 @@ char *_strcat(char *dst, char *src);
 int _strcmp(char *, char *);
 int _strlen(char *);
 char *_strdup(char *s);
+char *_strndup(char *s, int n);
 
 /* ================================================== */
 

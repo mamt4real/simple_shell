@@ -88,3 +88,31 @@ char *_strdup(char *s)
 	res[i] = '\0';
 	return (res);
 }
+
+/**
+ * _strndup - duplicates a string
+ *
+ * @s: pointer to string
+ * @n: number of characters to duplicate
+ * Return: pointer to duplicate
+ */
+char *_strndup(char *s, int n)
+{
+	int i, len;
+	char *res;
+
+	if (!s || n < 0)
+		return (0);
+	len = _strlen(s);
+	if (n > len)
+		n = len;
+	res = malloc(n + 1);
+	i = 0;
+	while (s[i] && i < n)
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
