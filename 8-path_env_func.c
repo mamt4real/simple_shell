@@ -50,7 +50,7 @@ char *check_path(char *file)
 		res = _strcat(res, file);
 		if (access(res, F_OK) == 0)
 		{
-			free(paths);
+			free_tokenized(paths);
 			return (res);
 		}
 		free(res);
