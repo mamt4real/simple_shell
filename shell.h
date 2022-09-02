@@ -86,7 +86,6 @@ extern char **environ;
  */
 typedef struct shell_data
 {
-	char **_environ;
 	char *shell_name;
 	char *old_pwd;
 } shell_t;

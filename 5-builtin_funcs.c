@@ -12,7 +12,7 @@ void env(char **tokenized_command __attribute__((unused)),
 {
 	int i;
 
-	for (i = 0; environ[i] != NULL; i++)
+	for (i = 0; environ[i]; i++)
 	{
 		_printf(environ[i], STDOUT_FILENO);
 		_printf("\n", STDOUT_FILENO);
@@ -35,6 +35,7 @@ void quit(char **tokenized_command, shell_t *p)
 	if (num_token == 1)
 	{
 		free_tokenized(tokenized_command);
+		free_tokenized(environ);
 		exit(1);
 	}
 	else if (num_token == 2)
@@ -46,11 +47,13 @@ void quit(char **tokenized_command, shell_t *p)
 			_printf(": 1: exit: Illegal number: ", STDERR_FILENO);
 			_printf(tokenized_command[1], STDERR_FILENO);
 			_printf("\n", STDERR_FILENO);
+			free_tokenized(environ);
 			exit(2);
 		}
 		else
 		{
 			free_tokenized(tokenized_command);
+			free_tokenized(environ);
 			exit(arg);
 		}
 	}
@@ -118,6 +121,8 @@ void display_help(char **command __attribute__((unused)),
 		"\tcd\n",
 		"\trmdir\n",
 		"\tmkdir\n",
+		"\tsetenv\n",
+		"\tunsetenv\n",
 		"\thelp\n",
 		"\tclear\n",
 		"\texit\n",
@@ -129,7 +134,7 @@ void display_help(char **command __attribute__((unused)),
 
 	while (texts[i])
 	{
-		_printf(texts[i], 1);
+		_printf(texts[i], STDIN_FILENO);
 		i++;
 	}
 }

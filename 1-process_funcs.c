@@ -110,6 +110,7 @@ void non_interractive(shell_t *p)
 			free(op);
 		}
 		free_tokenized(args);
+		free_tokenized(environ);
 		free(line);
 		exit(status);
 	}
@@ -125,7 +126,8 @@ void non_interractive(shell_t *p)
 
 int check_cmd_type(char *command)
 {
-	char *internal_cmd[] = {"exit", "cd", "help", "env", NULL};
+	static char *internal_cmd[] = 
+	{"exit", "cd", "help", "env", "setenv", "unsetenv", NULL};
 	char *path = NULL;
 	int i = 0;
 

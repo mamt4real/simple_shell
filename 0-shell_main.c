@@ -18,9 +18,8 @@ int main(int argc __attribute__((unused)), char **argv)
 
 	/* call the loop function */
 	shell_loop(&var);
-
-	free_tokenized(var._environ);
 	free_tokenized(environ);
+
 	return (EXIT_SUCCESS);
 }
 
@@ -30,18 +29,19 @@ shell_t *shell_init(shell_t *var)
 
 	var->shell_name = NULL;
 	var->old_pwd = NULL;
+	char **tmp;
 
 	for (i = 0; environ[i]; i++)
 		;
 
-	var->_environ = malloc(sizeof(char *) * (i + 1));
+	tmp = malloc(sizeof(char *) * (i + 1));
 
 	for (i = 0; environ[i]; i++)
 	{
-		var->_environ[i] = _strdup(environ[i]);
+		tmp[i] = _strdup(environ[i]);
 	}
-	var->_environ[i] = NULL;
-	environ = var->environ;
+	tmp[i] = NULL;
+	environ = tmp;
 
 	return (var);
 }

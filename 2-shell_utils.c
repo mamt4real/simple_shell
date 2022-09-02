@@ -24,6 +24,7 @@ char *shell_readline(void)
 	if (!buffer)
 	{
 		perror("Failed to allocate space in memory");
+		free_tokenized(environ);
 		exit(EXIT_FAILURE);
 	}
 
@@ -55,6 +56,7 @@ char *shell_readline(void)
 			if (!buffer)
 			{
 				perror("Failed to re-allocate a space in memory");
+				free_tokenized(environ);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -80,6 +82,7 @@ void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 				if (execve(proccessed_cmd[0], proccessed_cmd, NULL) == -1)
 				{
 					perror(_getenv("PWD"));
+					free_tokenized(environ);
 					exit(2);
 				}
 				break;
@@ -90,6 +93,7 @@ void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 						== -1)
 				{
 					perror(_getenv("PWD"));
+					free_tokenized(environ);
 					exit(2);
 				}
 				break;
