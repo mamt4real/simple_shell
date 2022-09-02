@@ -115,7 +115,7 @@ int _setenv(char *key, char *val)
 int _unsetenv(char *key)
 {
 	int i = 0, j = 0, index = -1;
-	char *key_val, **temp;
+	char **temp;
 
 	if (!key || !key[0] || is_delimeter(key, '='))
 		return (-1);

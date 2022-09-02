@@ -86,6 +86,7 @@ extern char **environ;
  */
 typedef struct shell_data
 {
+	char **_environ;
 	char *shell_name;
 	char *old_pwd;
 } shell_t;
@@ -104,6 +105,14 @@ typedef struct mapFunc
 
 
 /* ================================================== */
+
+
+/* -------------------shell main-------------------- */
+
+int main(int, char **);
+shell_t *shell_init(shell_t *);
+
+/* ================================================= */
 
 
 /* -----------shell utility functions------------ */
@@ -156,6 +165,13 @@ void display_help(char **, shell_t *);
 
 /* ===================================================== */
 
+/* ------------------builtin funct 2-------------------- */
+
+void aliasFunc(char **, shell_t *);
+void handle_setenv(char **, shell_t *);
+void handle_unsetenv(char **, shell_t *);
+
+/* ===================================================== */
 
 /* -----------function to handle tokenization----------- */
 char **tokenize(char *, const char *);

@@ -18,11 +18,18 @@ void shell_loop(shell_t *var)
 
 	/* handle program interruption if CTRL-C is pressed */
 	signal(SIGINT, ctrl_C_func);
-	do {
+	while (1)
+	{
 		i = 0;
 		non_interractive(var);
 		_printf(" ($) ", STDOUT_FILENO);
 		line = shell_readline();
+		if (!_strlen(line))
+		{
+			free(line);
+			if (isatty(STDIN_FILENO))
+				continue;
+		}
 		if (!line)
 		{
 			if (isatty(STDIN_FILENO))
@@ -57,7 +64,7 @@ void shell_loop(shell_t *var)
 			free(op);
 		}
 		free_tokenized(args);
-	} while (status);
+	}
 	free(line);
 }
 
@@ -69,9 +76,9 @@ void shell_loop(shell_t *var)
 
 void non_interractive(shell_t *p)
 {
-	char **args, **command;
-	char *line;
-	int i = 0, command_type = 0, status;
+	char **args, **logic_cmd;
+	char *line, *op;
+	int i = 0, status;
 
 	if (isatty(STDIN_FILENO) == 0)
 	{
@@ -80,15 +87,27 @@ void non_interractive(shell_t *p)
 		args = tokenize(line, ";");
 		while (args[i])
 		{
-			command = tokenize(args[i++], DELIM);
-			if (!(command[0]))
+			logic_cmd = logic_token(args[i++]);
+			op = logic_cmd[1];
+			if (!op)
+				status = execute_norm(logic_cmd[0], p);
+			else if (_strcmp(op, AND_DELIM) == 0)
 			{
-				free_tokenized(command);
-				break;
+				status = execute_and(logic_cmd[0], p);
+				if (status > 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+					break;
 			}
-			command_type = check_cmd_type(command[0]);
-			status = shell_execute(command, command_type, p);
-			free_tokenized(command);
+			else
+			{
+				status = execute_or(logic_cmd[0], p);
+				if (status < 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+					break;
+			}
+			free(op);
 		}
 		free_tokenized(args);
 		free(line);

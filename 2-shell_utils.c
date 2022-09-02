@@ -30,6 +30,7 @@ char *shell_readline(void)
 	while (1)
 	{
 		nRead = read(STDIN_FILENO, &c, 1);
+
 		if (c == EOF || !nRead)
 		{
 			if (isatty(STDIN_FILENO))
@@ -122,10 +123,13 @@ void (*get_func(char *command))(char **, shell_t *)
 		{"env", env},
 		{"exit", quit},
 		{"cd", ch_dir},
-		{"help", display_help}
+		{"help", display_help},
+		{"alias", aliasFunc},
+		{"setenv", handle_setenv},
+		{"unsetenv", handle_unsetenv}
 	};
 
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 7; i++)
 	{
 		if (_strcmp(command, mapping[i].command_name) == 0)
 			return (mapping[i].func);
