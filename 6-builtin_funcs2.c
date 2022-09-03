@@ -10,6 +10,7 @@ void handle_setenv(char **args, shell_t *p)
 {
 	int i = 0;
 
+	(void) p;
 	while (args[i])
 		i++;
 	if (i != 3)
@@ -32,6 +33,8 @@ void handle_setenv(char **args, shell_t *p)
 void handle_unsetenv(char **args, shell_t *p)
 {
 	int i = 0;
+
+	(void) p;
 
 	while (args[i])
 		i++;

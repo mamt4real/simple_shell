@@ -23,13 +23,16 @@ int main(int argc __attribute__((unused)), char **argv)
 	return (EXIT_SUCCESS);
 }
 
+
 shell_t *shell_init(shell_t *var)
 {
 	int i;
+	char **tmp;
 
 	var->shell_name = NULL;
 	var->old_pwd = NULL;
-	char **tmp;
+	var->err_status = 0;
+	var->cmd_counter = 1;
 
 	for (i = 0; environ[i]; i++)
 		;
@@ -45,4 +48,3 @@ shell_t *shell_init(shell_t *var)
 
 	return (var);
 }
-

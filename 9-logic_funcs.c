@@ -9,55 +9,24 @@
  * Return; 
  */
 
-int execute_norm(char *args, shell_t *var)
+void execute_logic(char *args, shell_t *var)
 {
 	char **command;
-	int command_type, status;
+	int command_type;
 
 	command = tokenize(args, DELIM);
 	if (!(command[0]))
 	{
 		free(command);
-		return (0);
+		return;
 	}
 	command_type = check_cmd_type(command[0]);
-	status = shell_execute(command, command_type, var);
+	shell_execute(command, command_type, var);
 	free_tokenized(command);
 	free(args);
-	return (status);
+
 }
 
-/**
- * execute_and - Handles execution with logical &&
- * @args: command arguement to be executed
- * @var: global shell variable
- *
- * Return; 
- */
-
-int execute_and(char *args, shell_t *var)
-{
-	(void)args;
-	(void)var;
-
-	return (0);
-}
-
-/**
- * execute_or - Handles execution with logical ||
- * @args: command arguement to be executed
- * @var: global shell variable
- *
- * Return; 
- */
-
-int execute_or(char *args, shell_t *var)
-{
-	(void)args;
-	(void)var;
-
-	return (0);
-}
 
 /**
  * logic_token - split a string base on a string

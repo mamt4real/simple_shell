@@ -14,7 +14,7 @@ void shell_loop(shell_t *var)
 {
 	char *line, *op;
 	char **args, **logic_cmd;
-	int status, i;
+	int i;
 
 	/* handle program interruption if CTRL-C is pressed */
 	signal(SIGINT, ctrl_C_func);
@@ -41,22 +41,21 @@ void shell_loop(shell_t *var)
 		{
 			logic_cmd = logic_token(args[i++]);
 			op = logic_cmd[1];
-			
+		
+			execute_logic(logic_cmd[0], var);
+			var->cmd_counter += 1;
 			if (!op)
-				status = execute_norm(logic_cmd[0], var);
-
-			else if (_strcmp(op, AND_DELIM) == 0)
+				continue;
+			if (_strcmp(op, AND_DELIM) == 0)
 			{
-				status = execute_and(logic_cmd[0], var);
-				if (status > 0)
+				if (var->err_status != 0)
 					logic_cmd = logic_token(logic_cmd[2]);
 				else
 					break;
 			}
-			else
+			else if (_strcmp(op, OR_DELIM) == 0)
 			{
-				status = execute_or(logic_cmd[0], var);
-				if (status < 0)
+				if (var->err_status == 0)
 					logic_cmd = logic_token(logic_cmd[2]);
 				else
 					break;
@@ -78,7 +77,7 @@ void non_interractive(shell_t *p)
 {
 	char **args, **logic_cmd;
 	char *line, *op;
-	int i = 0, status;
+	int i = 0;
 
 	if (isatty(STDIN_FILENO) == 0)
 	{
@@ -89,20 +88,20 @@ void non_interractive(shell_t *p)
 		{
 			logic_cmd = logic_token(args[i++]);
 			op = logic_cmd[1];
+			execute_logic(logic_cmd[0], p);
+			p->cmd_counter += 1;
 			if (!op)
-				status = execute_norm(logic_cmd[0], p);
-			else if (_strcmp(op, AND_DELIM) == 0)
+				continue;
+			if (_strcmp(op, AND_DELIM) == 0)
 			{
-				status = execute_and(logic_cmd[0], p);
-				if (status > 0)
+				if (p->err_status != 0)
 					logic_cmd = logic_token(logic_cmd[2]);
 				else
 					break;
 			}
-			else
+			else if (_strcmp(op, OR_DELIM) == 0)
 			{
-				status = execute_or(logic_cmd[0], p);
-				if (status < 0)
+				if (p->err_status == 0)
 					logic_cmd = logic_token(logic_cmd[2]);
 				else
 					break;
@@ -112,7 +111,6 @@ void non_interractive(shell_t *p)
 		free_tokenized(args);
 		free_tokenized(environ);
 		free(line);
-		exit(status);
 	}
 }
 
@@ -127,7 +125,8 @@ void non_interractive(shell_t *p)
 int check_cmd_type(char *command)
 {
 	static char *internal_cmd[] = 
-	{"exit", "cd", "help", "env", "setenv", "unsetenv", NULL};
+	{"exit", "cd", "help", "env", "setenv",
+		"unsetenv", "alias", NULL};
 	char *path = NULL;
 	int i = 0;
 
@@ -157,10 +156,10 @@ int check_cmd_type(char *command)
  * @var: struct for shell name and old path
  * Return: 1 always
  */
-int shell_execute(char **command, int cmd_type, shell_t *var)
+void shell_execute(char **command, int cmd_type, shell_t *var)
 {
-	pid_t PID;
-	int status;
+	pid_t PID, W_PID __attribute__((unused));
+	int state;
 
 	if (cmd_type == PATH_CMD || cmd_type == TERM_CMD)
 	{
@@ -172,13 +171,17 @@ int shell_execute(char **command, int cmd_type, shell_t *var)
 		else if (PID < 0)
 		{
 			perror("Error Creating fork");
-			return (1);
+			return;
 		}
 		else
-			waitpid(PID, &status, WUNTRACED);
-		return (1);
+		{
+			do {
+				W_PID = waitpid(PID, &state, WUNTRACED);
+			} while (!WIFEXITED(state) && !WIFSIGNALED(state));
+		}
 	}
 	else
 		shell_launch(command, cmd_type, var);
-	return (1);
+	
+	var->err_status = state / 256;
 }

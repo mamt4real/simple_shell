@@ -88,6 +88,8 @@ typedef struct shell_data
 {
 	char *shell_name;
 	char *old_pwd;
+	int cmd_counter;
+	int err_status;
 } shell_t;
 
 
@@ -129,7 +131,7 @@ void (*get_func(char *))(char **, shell_t *);
 void shell_loop(shell_t *);
 void non_interractive(shell_t *);
 int check_cmd_type(char *);
-int shell_execute(char **, int, shell_t *);
+void shell_execute(char **, int, shell_t *);
 
 /* ================================================= */
 
@@ -172,6 +174,16 @@ void handle_unsetenv(char **, shell_t *);
 
 /* ===================================================== */
 
+/* ---------------Handle error messages----------------- */
+
+void print_error(char **, shell_t *);
+
+void exit_error(char **, shell_t *);
+void chdir_error(char **, shell_t *);
+void env_error(char **, shell_t *);
+void invalid_cmd_error(char **, shell_t *);
+/* ===================================================== */
+
 /* -----------function to handle tokenization----------- */
 char **tokenize(char *, const char *);
 int is_delimeter(const char *delimeters, char c);
@@ -201,9 +213,7 @@ char *check_path(char *);
 /* -----------shell logical functions help-------------- */
 
 char **logic_token(char *);
-int execute_norm(char *, shell_t *);
-int execute_and(char *, shell_t *);
-int execute_or(char *, shell_t *);
+void execute_logic(char *, shell_t *);
 
 /* ===================================================== */
 
