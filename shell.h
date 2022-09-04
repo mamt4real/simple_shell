@@ -83,6 +83,8 @@ extern char **environ;
  * struct shell_data - Global data structure
  * @shell_name: the name of the shell at compile time
  * @old_pwd: old path visited
+ * @cmd_counter: counts the number of cmds executed
+ * @err_status: track error status for diff fxns
  */
 typedef struct shell_data
 {

@@ -2,7 +2,7 @@
 
 
 /**
- * execute_norm - Handles execution without logical && or ||
+ * execute_logic - Handles execution without logical && or ||
  * @args: command arguement to be executed
  * @var: global shell variable
  *
