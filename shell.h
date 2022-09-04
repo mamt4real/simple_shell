@@ -132,6 +132,7 @@ void shell_loop(shell_t *);
 void non_interractive(shell_t *);
 int check_cmd_type(char *);
 void shell_execute(char **, int, shell_t *);
+char *_strcpy(char *, char *);
 
 /* ================================================= */
 
@@ -142,6 +143,7 @@ int _printf(char *, int);
 void remove_comment(char *);
 int _putchar(char);
 int _atoi(char *);
+char *_itoa(int);
 
 /* ================================================= */
 
@@ -178,10 +180,10 @@ void handle_unsetenv(char **, shell_t *);
 
 void print_error(char **, shell_t *);
 
-void exit_error(char **, shell_t *);
-void chdir_error(char **, shell_t *);
-void env_error(char **, shell_t *);
-void invalid_cmd_error(char **, shell_t *);
+char *exit_error(char **, shell_t *);
+char *chdir_error(char **, shell_t *);
+char *env_error(char **, shell_t *);
+char *invalid_cmd_error(char **, shell_t *);
 /* ===================================================== */
 
 /* -----------function to handle tokenization----------- */

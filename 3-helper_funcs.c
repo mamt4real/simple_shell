@@ -72,3 +72,39 @@ int _atoi(char *s)
 	} while (*s++);
 	return (n);
 }
+
+
+char *_itoa(int num)
+{
+	char *res;
+	int tmp = num, len = 0;
+
+	if (tmp < 0)
+	{
+		len++;
+		tmp *= -1;
+	}
+
+	do {
+		tmp /= 10;
+		len++;
+	} while (tmp);
+	res = malloc((len + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	*(res + len) = '\0';
+
+	if (num < 0)
+	{
+		res[0] = '-';
+		num *= -1;
+	}
+	len--;
+	do {
+		*(res + len) = (num % 10) + '0';
+		num /= 10;
+		len--;
+	} while (num);
+
+	return (res);
+}

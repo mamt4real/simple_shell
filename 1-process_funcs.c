@@ -41,26 +41,27 @@ void shell_loop(shell_t *var)
 		{
 			logic_cmd = logic_token(args[i++]);
 			op = logic_cmd[1];
-		
-			execute_logic(logic_cmd[0], var);
-			var->cmd_counter += 1;
-			if (!op)
-				continue;
-			if (_strcmp(op, AND_DELIM) == 0)
+			while (logic_cmd[0])
 			{
-				if (var->err_status != 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
+				execute_logic(logic_cmd[0], var);
+				var->cmd_counter += 1;
+				if (!logic_cmd[2])
 					break;
+				if (_strcmp(op, AND_DELIM) == 0 && logic_cmd[2])
+				{
+					if (var->err_status == 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break;
+				}
+				else if (_strcmp(op, OR_DELIM) == 0)
+				{
+					if (var->err_status != 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break;
+				}
 			}
-			else if (_strcmp(op, OR_DELIM) == 0)
-			{
-				if (var->err_status == 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
-					break;
-			}
-			free(op);
 		}
 		free_tokenized(args);
 	}
@@ -184,4 +185,15 @@ void shell_execute(char **command, int cmd_type, shell_t *var)
 		shell_launch(command, cmd_type, var);
 	
 	var->err_status = state / 256;
+}
+
+char *_strcpy(char *dest, char *src)
+{
+	int i;
+
+	for (i = 0; src[i]; i++)
+		dest[i] = src[i];
+	dest[i] = '\0';
+
+	return (dest);
 }

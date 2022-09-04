@@ -8,7 +8,7 @@
  */
 
 void env(char **tokenized_command __attribute__((unused)),
-		shell_t *p __attribute__((unused)))
+		shell_t *p)
 {
 	int i;
 
@@ -17,6 +17,7 @@ void env(char **tokenized_command __attribute__((unused)),
 		_printf(environ[i], STDOUT_FILENO);
 		_printf("\n", STDOUT_FILENO);
 	}
+	p->err_status = 0;
 }
 
 /**
@@ -76,7 +77,11 @@ void ch_dir(char **command, shell_t *var)
 	{
 		SETPWD(var->old_pwd);
 		if (chdir(home) < 0)
-			exit(EXIT_FAILURE);
+		{
+			print_error(command, var);
+			var->err_status = 2;
+			return;
+		}
 	}
 	else if (_strcmp(command[1],  "-") == 0)
 	{
@@ -92,15 +97,20 @@ void ch_dir(char **command, shell_t *var)
 			if (chdir(var->old_pwd) < 0)
 				exit(EXIT_FAILURE);
 		}
-
+		_printf(var->old_pwd, STDOUT_FILENO);
+		_printf("\n", STDOUT_FILENO);
 	}
 	else
 	{
 		SETPWD(var->old_pwd);
 		if (chdir(command[1]) < 0)
-			exit(EXIT_FAILURE);
+		{
+			print_error(command, var);
+			var->err_status = 2;
+			return;
+		}
 	}
-
+	var->err_status = 0;
 }
 
 #undef GETCWD

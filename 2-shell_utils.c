@@ -106,12 +106,11 @@ void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 			}
 		case INVALID_CMD:
 			{
-				_printf(p->shell_name, STDERR_FILENO);
-				_printf(": 1: ", STDERR_FILENO);
-				_printf(proccessed_cmd[0], STDERR_FILENO);
-				_printf(": not found\n", STDERR_FILENO);
+				print_error(proccessed_cmd, p);
+				p->err_status = 2;
 			}
 	}
+	p->err_status = 0;
 }
 
 /**
