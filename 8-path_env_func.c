@@ -148,3 +148,45 @@ int _unsetenv(char *key)
 	environ = temp;
 	return (0);
 }
+
+/**
+ * replace_vars - replace variables in args
+ *
+ * @args: tokenized args
+ * @var: shell global info variable
+ *
+ */
+void replace_vars(char **args, shell_t *var)
+{
+	int i = 0;
+	char *temp;
+
+	if (!args)
+		return;
+	for (; args[i]; i++)
+	{
+		if (args[i][0] != '$')
+			continue;
+		temp = _getenv(args[i] + 1);
+		if (temp)
+		{
+			free(args[i]);
+			args[i] = _strdup(temp);
+			continue;
+		}
+		if (_strlen(args[i] + 1) == 1)
+		{
+			switch (args[i][1])
+			{
+			case '$':
+				free(args[i]);
+				args[i] = _itoa(getpid());
+				break;
+			case '?':
+				free(args[i]);
+				args[i] = _itoa(var->err_status);
+				break;
+			}
+		}
+	}
+}
