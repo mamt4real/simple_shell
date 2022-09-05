@@ -44,10 +44,7 @@ void quit(char **tokenized_command, shell_t *p)
 		arg = _atoi(tokenized_command[1]);
 		if (arg < 0)
 		{
-			_printf(p->shell_name, STDERR_FILENO);
-			_printf(": 1: exit: Illegal number: ", STDERR_FILENO);
-			_printf(tokenized_command[1], STDERR_FILENO);
-			_printf("\n", STDERR_FILENO);
+			print_error(tokenized_command, p);
 			p->err_status = 2;
 		}
 		else

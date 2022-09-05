@@ -128,7 +128,7 @@ int _unsetenv(char *key)
 	}
 	/* if key is not found */
 	if (index == -1)
-		return (0);
+		return (-1);
 	/* key is found remove it */
 	temp = malloc(i * sizeof(char *));
 	if (!temp)

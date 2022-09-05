@@ -10,18 +10,19 @@ void handle_setenv(char **args, shell_t *p)
 {
 	int i = 0;
 
-	(void) p;
 	while (args[i])
 		i++;
-	if (i != 3)
+	if (i != 3 || !args[1] || !args[2])
 	{
-		_printf("setenv: wrong number of arguments\n", STDERR_FILENO);
-		_printf("type help for more info\n", STDERR_FILENO);
+		p->err_status = -1;
+		print_error(args, p);
 		return;
 	}
 	i = _setenv(args[1], args[2]);
 	if (i)
 		_printf("setenv: invalid arguments\n", STDERR_FILENO);
+
+	p->err_status = 0;
 }
 
 /**
@@ -34,19 +35,23 @@ void handle_unsetenv(char **args, shell_t *p)
 {
 	int i = 0;
 
-	(void) p;
-
 	while (args[i])
 		i++;
-	if (i != 2)
+	if (i != 2 || !args[1])
 	{
-		_printf("unsetenv: wrong number of arguments\n", STDERR_FILENO);
-		_printf("type help for more info\n", STDERR_FILENO);
+		p->err_status = -1;
+		print_error(args, p);
 		return;
 	}
 	i = _unsetenv(args[1]);
 	if (i)
-		_printf("unsetenv: invalid arguments\n", STDERR_FILENO);
+	{
+		p->err_status = -1;
+		print_error(args, p);
+		return;
+	}
+
+	p->err_status = 0;
 }
 
 /**

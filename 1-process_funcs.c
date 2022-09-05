@@ -12,8 +12,7 @@
 
 void shell_loop(shell_t *var)
 {
-	char *line, *op;
-	char **args, **logic_cmd;
+	char *line, *op, **args, **logic_cmd;
 	int i;
 
 	/* handle program interruption if CTRL-C is pressed */
@@ -47,7 +46,7 @@ void shell_loop(shell_t *var)
 				var->cmd_counter += 1;
 				if (!logic_cmd[2])
 					break;
-				if (_strcmp(op, AND_DELIM) == 0 && logic_cmd[2])
+				if (_strcmp(op, AND_DELIM) == 0)
 				{
 					if (var->err_status == 0)
 						logic_cmd = logic_token(logic_cmd[2]);
@@ -89,25 +88,27 @@ void non_interractive(shell_t *p)
 		{
 			logic_cmd = logic_token(args[i++]);
 			op = logic_cmd[1];
-			execute_logic(logic_cmd[0], p);
-			p->cmd_counter += 1;
-			if (!op)
-				continue;
-			if (_strcmp(op, AND_DELIM) == 0)
+			while (logic_cmd[0])
 			{
-				if (p->err_status != 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
+				execute_logic(logic_cmd[0], p);
+				p->cmd_counter += 1;
+				if (!logic_cmd[2])
 					break;
+				if (_strcmp(op, AND_DELIM) == 0)
+				{
+					if (p->err_status == 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break;
+				}
+				else if (_strcmp(op, OR_DELIM) == 0)
+				{
+					if (p->err_status != 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break;
+				}
 			}
-			else if (_strcmp(op, OR_DELIM) == 0)
-			{
-				if (p->err_status == 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
-					break;
-			}
-			free(op);
 		}
 		free_tokenized(args);
 		free_tokenized(environ);
