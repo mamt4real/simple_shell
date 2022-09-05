@@ -211,6 +211,7 @@ char *_getenv(char *);
 int _setenv(char *, char *);
 int _unsetenv(char *);
 char *check_path(char *);
+void replace_vars(char **, shell_t *);
 
 /* ==================================================== */
 
