@@ -15,7 +15,7 @@ int main(int argc __attribute__((unused)), char **argv)
 
 	shell_init(&var);
 	var.shell_name = argv[0];
-
+	var.aliases = NULL;
 	/* call the loop function */
 	shell_loop(&var);
 	free_tokenized(environ);
@@ -29,6 +29,7 @@ shell_t *shell_init(shell_t *var)
 	int i;
 	char **tmp;
 
+	var->aliases = NULL;
 	var->shell_name = NULL;
 	var->old_pwd = NULL;
 	var->err_status = 0;

@@ -9,6 +9,10 @@ void print_error(char **commands, shell_t *build)
 	{
 		error = exit_error(commands, build);
 	}
+	else if (_strcmp(commands[0], "alias") == 0)
+	{
+		error = alias_error(commands, build);
+	}
 	else if (_strcmp(commands[0], "cd") == 0)
 	{
 		error = chdir_error(commands, build);

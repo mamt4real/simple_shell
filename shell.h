@@ -88,6 +88,7 @@ extern char **environ;
  */
 typedef struct shell_data
 {
+	char **aliases;
 	char *shell_name;
 	char *old_pwd;
 	int cmd_counter;
@@ -175,6 +176,8 @@ void display_help(char **, shell_t *);
 void aliasFunc(char **, shell_t *);
 void handle_setenv(char **, shell_t *);
 void handle_unsetenv(char **, shell_t *);
+void set_alias(char *, shell_t *);
+char *alias_error(char **, shell_t *);
 
 /* ===================================================== */
 
