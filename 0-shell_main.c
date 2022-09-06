@@ -23,13 +23,17 @@ int main(int argc __attribute__((unused)), char **argv)
 	return (EXIT_SUCCESS);
 }
 
-
+/**
+ * shell_init - some initialisations
+ *
+ * @var: shell global variable
+ * Return: shell var
+ */
 shell_t *shell_init(shell_t *var)
 {
 	int i;
 	char **tmp;
 
-	var->aliases = NULL;
 	var->shell_name = NULL;
 	var->old_pwd = NULL;
 	var->err_status = 0;
@@ -39,6 +43,8 @@ shell_t *shell_init(shell_t *var)
 		;
 
 	tmp = malloc(sizeof(char *) * (i + 1));
+	var->aliases = malloc(sizeof(char *));
+	var->aliases[0] = NULL;
 
 	for (i = 0; environ[i]; i++)
 	{

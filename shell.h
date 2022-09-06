@@ -85,6 +85,7 @@ extern char **environ;
  * @old_pwd: old path visited
  * @cmd_counter: counts the number of cmds executed
  * @err_status: track error status for diff fxns
+ * @aliases: holds the aliases we have currently
  */
 typedef struct shell_data
 {

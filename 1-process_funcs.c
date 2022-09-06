@@ -126,9 +126,10 @@ void non_interractive(shell_t *p)
 
 int check_cmd_type(char *command)
 {
-	static char *internal_cmd[] = 
-	{"exit", "cd", "help", "env", "setenv",
-		"unsetenv", "alias", NULL};
+	static char *internal_cmd[] = {
+		"exit", "cd", "help", "env", "setenv",
+		"unsetenv", "alias", NULL
+	};
 	char *path = NULL;
 	int i = 0;
 
@@ -184,7 +185,6 @@ void shell_execute(char **command, int cmd_type, shell_t *var)
 	}
 	else
 		shell_launch(command, cmd_type, var);
-	
 	var->err_status = state / 256;
 }
 

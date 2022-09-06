@@ -49,3 +49,14 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	free(ptr);
 	return (new_ptr);
 }
+
+/**
+ * clear_memory - frees global memories
+ *
+ * @var: global shell variable
+ */
+void clear_memory(shell_t *var)
+{
+	free_tokenized(environ);
+	free_tokenized(var->aliases);
+}

@@ -6,7 +6,7 @@
  * @args: command arguement to be executed
  * @var: global shell variable
  *
- * Return; 
+ * Return;
  */
 
 void execute_logic(char *args, shell_t *var)
@@ -21,13 +21,10 @@ void execute_logic(char *args, shell_t *var)
 		return;
 	}
 	command_type = check_cmd_type(command[0]);
-	
 	replace_vars(command, var);
-
 	shell_execute(command, command_type, var);
 	free_tokenized(command);
 	free(args);
-
 }
 
 
