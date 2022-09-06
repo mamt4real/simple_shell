@@ -64,7 +64,7 @@ void aliasFunc(char **args, shell_t *p)
 {
 	int i = 0, j = 0;
 	printf("%s\t%s\n", args[0], args[1]);
-	if (args[1] == NULL)
+	if (*(args + 1))
 	{
 		printf("testing");
 		if (p->aliases[i] == NULL)
@@ -80,6 +80,7 @@ void aliasFunc(char **args, shell_t *p)
 		p->err_status = 0;
 		return;
 	}
+	printf("if failed");
 	for (i = 1; args[i]; i++)
 	{
 		if (is_delimeter(args[i], '=') == 0)

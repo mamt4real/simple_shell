@@ -15,7 +15,8 @@ int main(int argc __attribute__((unused)), char **argv)
 
 	shell_init(&var);
 	var.shell_name = argv[0];
-	var.aliases = NULL;
+	var.aliases = malloc(10 * sizeof(char *));
+	var.aliases[0] = NULL;
 	/* call the loop function */
 	shell_loop(&var);
 	free_tokenized(environ);
