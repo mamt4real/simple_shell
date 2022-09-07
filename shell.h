@@ -86,6 +86,7 @@ extern char **environ;
  * @cmd_counter: counts the number of cmds executed
  * @err_status: track error status for diff fxns
  * @aliases: holds the aliases we have currently
+ * @exit: a flag to signify exit
  */
 typedef struct shell_data
 {
@@ -94,6 +95,7 @@ typedef struct shell_data
 	char *old_pwd;
 	int cmd_counter;
 	int err_status;
+	int exit;
 } shell_t;
 
 

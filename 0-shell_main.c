@@ -37,6 +37,7 @@ shell_t *shell_init(shell_t *var)
 	var->old_pwd = NULL;
 	var->err_status = 0;
 	var->cmd_counter = 1;
+	var->exit = -50;
 
 	for (i = 0; environ[i]; i++)
 		;

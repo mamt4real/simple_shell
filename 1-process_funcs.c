@@ -35,6 +35,8 @@ void shell_loop(shell_t *var)
 
 		logic_token_help(line, var);
 		free(line);
+		if (var->exit != -50)
+			exit(var->exit);
 	}
 }
 
