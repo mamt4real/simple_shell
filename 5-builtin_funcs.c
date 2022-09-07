@@ -35,7 +35,7 @@ void quit(char **tokenized_command, shell_t *p)
 		;
 	if (num_token == 1)
 	{
-		free_tokenized(tokenized_command);
+		/* free_tokenized(tokenized_command); */
 		clear_memory(p);
 		p->exit = p->err_status;
 	}
@@ -49,7 +49,7 @@ void quit(char **tokenized_command, shell_t *p)
 		}
 		else
 		{
-			free_tokenized(tokenized_command);
+			/* free_tokenized(tokenized_command); */
 			clear_memory(p);
 			p->exit = arg;
 		}

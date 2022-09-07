@@ -14,6 +14,7 @@ void free_tokenized(char **tokens)
 	while (tokens[i])
 		free(tokens[i++]);
 	free(tokens);
+	tokens = NULL;
 }
 
 
