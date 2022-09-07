@@ -12,14 +12,12 @@
 
 void shell_loop(shell_t *var)
 {
-	char *line, *op, **args, **logic_cmd;
-	int i;
+	char *line;
 
 	/* handle program interruption if CTRL-C is pressed */
 	signal(SIGINT, ctrl_C_func);
 	while (1)
 	{
-		i = 0;
 		non_interractive(var);
 		_printf(" ($) ", STDOUT_FILENO);
 		line = shell_readline();
@@ -34,37 +32,10 @@ void shell_loop(shell_t *var)
 			if (isatty(STDIN_FILENO))
 				break;
 		}
-		remove_comment(line);
-		args = tokenize(line, ";");
-		while (args[i])
-		{
-			logic_cmd = logic_token(args[i++]);
-			op = logic_cmd[1];
-			while (logic_cmd[0])
-			{
-				execute_logic(logic_cmd[0], var);
-				var->cmd_counter += 1;
-				if (!logic_cmd[2])
-					break;
-				if (_strcmp(op, AND_DELIM) == 0)
-				{
-					if (var->err_status == 0)
-						logic_cmd = logic_token(logic_cmd[2]);
-					else
-						break;
-				}
-				else if (_strcmp(op, OR_DELIM) == 0)
-				{
-					if (var->err_status != 0)
-						logic_cmd = logic_token(logic_cmd[2]);
-					else
-						break;
-				}
-			}
-		}
-		free_tokenized(args);
+
+		logic_token_help(line, var);
+		free(line);
 	}
-	free(line);
 }
 
 
@@ -126,9 +97,10 @@ void non_interractive(shell_t *p)
 
 int check_cmd_type(char *command)
 {
-	static char *internal_cmd[] = 
-	{"exit", "cd", "help", "env", "setenv",
-		"unsetenv", "alias", NULL};
+	static char *internal_cmd[] = {
+		"exit", "cd", "help", "env", "setenv",
+		"unsetenv", "alias", NULL
+	};
 	char *path = NULL;
 	int i = 0;
 
@@ -184,9 +156,16 @@ void shell_execute(char **command, int cmd_type, shell_t *var)
 	}
 	else
 		shell_launch(command, cmd_type, var);
-	
 	var->err_status = state / 256;
 }
+
+/**
+ * _strcpy - copy a string from src to dest
+ * @dest: destination
+ * @src: source
+ *
+ * Return: copied string
+ */
 
 char *_strcpy(char *dest, char *src)
 {

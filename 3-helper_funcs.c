@@ -73,7 +73,12 @@ int _atoi(char *s)
 	return (n);
 }
 
-
+/**
+ * _itoa - convert an integer to a string
+ * @num: num to be converted
+ *
+ * Return: converted string
+ */
 char *_itoa(int num)
 {
 	char *res;

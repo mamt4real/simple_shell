@@ -63,13 +63,11 @@ void handle_unsetenv(char **args, shell_t *p)
 void aliasFunc(char **args, shell_t *p)
 {
 	int i = 0, j = 0;
-	printf("%s\t%s\n", args[0], args[1]);
-	if (*(args + 1))
+
+	if (args[1] == NULL && p->aliases)
 	{
-		printf("testing");
 		if (p->aliases[i] == NULL)
 		{
-			_printf("\n", STDOUT_FILENO);
 			return;
 		}
 		while (p->aliases[i])
@@ -80,7 +78,6 @@ void aliasFunc(char **args, shell_t *p)
 		p->err_status = 0;
 		return;
 	}
-	printf("if failed");
 	for (i = 1; args[i]; i++)
 	{
 		if (is_delimeter(args[i], '=') == 0)
@@ -98,8 +95,7 @@ void aliasFunc(char **args, shell_t *p)
 			}
 			if (!p->aliases)
 			{
-				print_error(args, p);
-				p->err_status = 1;
+				print_error(args, p), p->err_status = 1;
 			}
 		}
 		else
@@ -122,13 +118,12 @@ void set_alias(char *key_val, shell_t *var)
 	char *key = tmp[0];
 	int i = 0;
 
-	while (var->aliases[i])
+	while (var->aliases && var->aliases[i])
 	{
 		if (startsWith(var->aliases[i], key))
 		{
 			free(var->aliases[i]);
-			var->aliases[i] = key_val;
-			free(key);
+			var->aliases[i] = _strdup(key_val);
 			free_tokenized(tmp);
 			return;
 		}
@@ -137,14 +132,13 @@ void set_alias(char *key_val, shell_t *var)
 	temp = malloc((i + 2) * sizeof(char *));
 	if (!temp)
 		return;
-	for (i = 0; var->aliases[i]; i++)
+	for (i = 0; var->aliases && var->aliases[i]; i++)
 		temp[i] = var->aliases[i];
 
-	temp[i++] = key_val;
+	temp[i++] = _strdup(key_val);
 	temp[i] = NULL;
-	free_tokenized(var->aliases);
+	free(var->aliases);
 	var->aliases = temp;
-	free(key);
 	free_tokenized(tmp);
 	var->err_status = 0;
 }

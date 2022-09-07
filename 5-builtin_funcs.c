@@ -102,8 +102,7 @@ void ch_dir(char **command, shell_t *var)
 		SETPWD(var->old_pwd);
 		if (chdir(command[1]) < 0)
 		{
-			print_error(command, var);
-			var->err_status = 2;
+			print_error(command, var), var->err_status = 2;
 			return;
 		}
 	}

@@ -31,13 +31,11 @@ char *shell_readline(void)
 	while (1)
 	{
 		nRead = read(STDIN_FILENO, &c, 1);
-
 		if (c == EOF || !nRead)
 		{
 			if (isatty(STDIN_FILENO))
 			{
-				free(buffer);
-				_printf("\n", STDIN_FILENO);
+				free(buffer), _printf("\n", STDIN_FILENO);
 				return (NULL);
 			}
 		}
@@ -55,7 +53,6 @@ char *shell_readline(void)
 			buffer = _realloc(buffer, RL_BUFSIZE, bufsize);
 			if (!buffer)
 			{
-				perror("Failed to re-allocate a space in memory");
 				free_tokenized(environ);
 				exit(EXIT_FAILURE);
 			}

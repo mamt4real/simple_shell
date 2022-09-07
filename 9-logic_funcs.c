@@ -6,7 +6,7 @@
  * @args: command arguement to be executed
  * @var: global shell variable
  *
- * Return; 
+ * Return;
  */
 
 void execute_logic(char *args, shell_t *var)
@@ -21,13 +21,10 @@ void execute_logic(char *args, shell_t *var)
 		return;
 	}
 	command_type = check_cmd_type(command[0]);
-	
 	replace_vars(command, var);
-
 	shell_execute(command, command_type, var);
 	free_tokenized(command);
 	free(args);
-
 }
 
 
@@ -67,4 +64,56 @@ char **logic_token(char *str)
 	res[1] = 0;
 	res[2] = 0;
 	return (res);
+}
+
+
+/**
+ * logic_token_help - helper function to handle logic token
+ * @line: line entered by the user
+ * @var: global shell variable
+ *
+ */
+
+void logic_token_help(char *line, shell_t *var)
+{
+	int i = 0;
+	char **args, **logic_cmd, *op;
+
+	remove_comment(line);
+	args = tokenize(line, ";");
+
+	while (args[i])
+	{
+		logic_cmd = logic_token(args[i++]);
+		op = logic_cmd[1];
+		while (logic_cmd[0])
+		{
+			execute_logic(logic_cmd[0], var);
+			var->cmd_counter += 1;
+			if (!logic_cmd[2])
+				break;
+			if (_strcmp(op, AND_DELIM) == 0)
+			{
+				if (var->err_status == 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+				{
+					free_tokenized(logic_cmd);
+					break;
+				}
+			}
+			else if (_strcmp(op, OR_DELIM) == 0)
+			{
+				if (var->err_status != 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+				{
+					free_tokenized(logic_cmd);
+					break;
+				}
+			}
+		}
+	}
+	/* free_tokenized(logic_cmd);*/
+	free_tokenized(args);
 }

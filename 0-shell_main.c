@@ -15,22 +15,25 @@ int main(int argc __attribute__((unused)), char **argv)
 
 	shell_init(&var);
 	var.shell_name = argv[0];
-	var.aliases = malloc(10 * sizeof(char *));
-	var.aliases[0] = NULL;
+
 	/* call the loop function */
 	shell_loop(&var);
 	free_tokenized(environ);
-
+	free_tokenized(var.aliases);
 	return (EXIT_SUCCESS);
 }
 
-
+/**
+ * shell_init - some initialisations
+ *
+ * @var: shell global variable
+ * Return: shell var
+ */
 shell_t *shell_init(shell_t *var)
 {
 	int i;
 	char **tmp;
 
-	var->aliases = NULL;
 	var->shell_name = NULL;
 	var->old_pwd = NULL;
 	var->err_status = 0;
@@ -40,6 +43,8 @@ shell_t *shell_init(shell_t *var)
 		;
 
 	tmp = malloc(sizeof(char *) * (i + 1));
+	var->aliases = malloc(sizeof(char *));
+	var->aliases[0] = NULL;
 
 	for (i = 0; environ[i]; i++)
 	{

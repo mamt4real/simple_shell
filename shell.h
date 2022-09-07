@@ -85,6 +85,7 @@ extern char **environ;
  * @old_pwd: old path visited
  * @cmd_counter: counts the number of cmds executed
  * @err_status: track error status for diff fxns
+ * @aliases: holds the aliases we have currently
  */
 typedef struct shell_data
 {
@@ -222,6 +223,7 @@ void replace_vars(char **, shell_t *);
 
 char **logic_token(char *);
 void execute_logic(char *, shell_t *);
+void logic_token_help(char *, shell_t *);
 
 /* ===================================================== */
 
