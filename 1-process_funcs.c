@@ -80,10 +80,13 @@ void non_interractive(shell_t *p)
 						break;
 				}
 			}
+			free(logic_cmd);
 		}
 		free_tokenized(args);
-		free_tokenized(environ);
 		free(line);
+		free_tokenized(environ);
+		free_tokenized(p->aliases);
+		exit(p->err_status);
 	}
 }
 
