@@ -78,7 +78,7 @@ void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 			{
 				if (execve(proccessed_cmd[0], proccessed_cmd, NULL) == -1)
 				{
-					perror(_getenv("PWD"));
+					perror(p->shell_name);
 					free_tokenized(environ);
 					exit(2);
 				}
@@ -89,7 +89,7 @@ void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 				if (execve(check_path(proccessed_cmd[0]), proccessed_cmd, NULL)
 						== -1)
 				{
-					perror(_getenv("PWD"));
+					perror(p->shell_name);
 					free_tokenized(environ);
 					exit(2);
 				}
