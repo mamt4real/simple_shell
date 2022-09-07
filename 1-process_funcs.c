@@ -84,8 +84,7 @@ void non_interractive(shell_t *p)
 		}
 		free_tokenized(args);
 		free(line);
-		free_tokenized(environ);
-		free_tokenized(p->aliases);
+		clear_memory(p);
 		exit(p->err_status);
 	}
 }

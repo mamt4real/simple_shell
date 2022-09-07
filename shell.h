@@ -205,6 +205,7 @@ int endsWith(char *s, char *ndl);
 
 void free_tokenized(char **tokens);
 void *_realloc(void *, unsigned int, unsigned int);
+void clear_memory(shell_t *var);
 
 /* ==================================================== */
 

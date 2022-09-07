@@ -18,8 +18,7 @@ int main(int argc __attribute__((unused)), char **argv)
 
 	/* call the loop function */
 	shell_loop(&var);
-	free_tokenized(environ);
-	free_tokenized(var.aliases);
+	clear_memory(&var);
 	return (EXIT_SUCCESS);
 }
 
