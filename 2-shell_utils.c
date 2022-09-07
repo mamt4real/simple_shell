@@ -76,7 +76,7 @@ void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 	{
 		case TERM_CMD:
 			{
-				if (execve(proccessed_cmd[0], proccessed_cmd, NULL) == -1)
+				if (execve(proccessed_cmd[0], proccessed_cmd, environ) == -1)
 				{
 					perror(_getenv("PWD"));
 					free_tokenized(environ);
@@ -86,7 +86,7 @@ void shell_launch(char **proccessed_cmd, int cmd_type, shell_t *p)
 			}
 		case PATH_CMD:
 			{
-				if (execve(check_path(proccessed_cmd[0]), proccessed_cmd, NULL)
+				if (execve(check_path(proccessed_cmd[0]), proccessed_cmd, environ)
 						== -1)
 				{
 					perror(_getenv("PWD"));
